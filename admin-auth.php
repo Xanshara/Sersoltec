@@ -4,7 +4,12 @@
  * Sprawdzanie autoryzacji admina (include w każdym pliku admin)
  */
 
-require_once '../config.php';
+// Określ ścieżkę do config.php (w zależności od struktury katalogów)
+if (file_exists('../config.php')) {
+    require_once '../config.php';
+} elseif (file_exists('config.php')) {
+    require_once 'config.php';
+}
 
 // Sprawdź czy zalogowany
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
@@ -35,4 +40,3 @@ if (isset($_GET['logout'])) {
     header('Location: login.php');
     exit;
 }
-?>
