@@ -255,7 +255,10 @@ include 'includes/header.php';
 .summary-row.total { font-size: 1.3em; color: #2c3e50; padding: 15px 0; }
 .summary-card hr { border: none; border-top: 1px solid #eee; margin: 15px 0; }
 .btn { display: inline-block; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; text-align: center; cursor: pointer; transition: all 0.3s; border: none; font-size: 16px; }
-.btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
 .btn-secondary { background: white; color: #3498db; border: 2px solid #3498db; }
 .btn-secondary:hover { background: #3498db; color: white; }

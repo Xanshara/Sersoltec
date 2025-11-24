@@ -9,29 +9,65 @@ sersoltec/
 ├── 📄 index.php                     # Strona główna
 ├── 📄 .htaccess                     # Apache rewrite rules
 ├── 📄 SETUP.sql                     # SQL do tworzenia bazy danych
-│
+├── 📄 auth.php
+├── 📄 profile.php
+├── 📄 order_success.php
+├── 📄 check_orders.php
+├── 📄 order-confirmation.php
+├── 📄 order-history.php
+├── 📄 cart.php
+├── 📄 checkout.php
 ├── 📂 includes/                     # Komponenty wspólne
 │   ├── header.php                   # Nagłówek z nawigacją
 │   ├── footer.php                   # Stopka
+│   ├── get-category-svg.php
 │   └── translations.php             # Tłumaczenia (PL/EN/ES)
 │
 ├── 📂 pages/                        # Podstrony
 │   ├── products.php                 # Katalog produktów + filtry
 │   ├── product-detail.php           # Szczegóły jednego produktu
 │   ├── calculator.php               # Kalkulator ceny okien
+│   ├── terms.php
+│   ├── privacy.php
+│   ├── gallery.php
+│   ├── about.php
+│   ├── chatbot.php					 # FAQ
 │   └── contact.php                  # Formularz kontaktowy
+│
+├── 📂 api/
+│   ├── chatbot-widget.php
+│   └── chatbot-widget-api.php
 │
 ├── 📂 assets/                       # Zasoby statyczne
 │   ├── css/
 │   │   ├── styles.css               # Główne style (2000+ linii)
+│   │   ├── chatbot-widget.css
 │   │   └── responsive.css           # Style responsywne
 │   ├── js/
+│   │   ├── gallery.js
+│   │   ├── chatbot-widget.js
 │   │   └── main.js                  # JavaScript (400+ linii)
 │   └── images/
 │       ├── logo.svg                 # Logo w SVG
 │       └── products/                # Zdjęcia produktów (folder pusty)
 │
 ├── 📂 admin/                        # Panel administracyjny (pusty, do rozbudowy)
+│   ├── auth.php
+│   ├── admin-auth.php
+│   ├── admin-footer.php
+│   ├── login.php
+│   ├── dashboard.php
+│   ├── product-edit.php
+│   ├── users.php
+│   ├── generate.php
+│   ├── admin-styles.css
+│   ├── categories.php
+│   ├── inquiries.php
+│   ├── settings.php
+│   ├── admin-header.php
+│   ├── shop-users.php
+│   ├── orders.php
+│   └── products.php
 │
 ├── 📚 DOKUMENTACJA
 │   ├── README.md                    # Pełna dokumentacja

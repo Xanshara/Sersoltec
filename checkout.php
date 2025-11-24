@@ -1,5 +1,5 @@
 <?php
-// ===== FINALIZACJA ZAMÓWIENIA =====
+// ===== FINALIZACJA ZAMÓWIENIA - WERSJA DEBUGOWA =====
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/translations.php';
 
-// KROK 1: Użycie standardowej funkcji do pobierania języka (tak jak w products.php)
+// KROK 1: Użycie standardowej funkcji do pobierania języka
 $current_lang = getCurrentLanguage();
 
 // Sprawdź czy koszyk nie jest pusty
@@ -34,11 +34,14 @@ foreach ($_SESSION['cart'] as $product_id => $item) {
 }
 
 // Pobierz dane użytkownika jeśli zalogowany
+// user_id_to_insert to teraz NULL (dla gościa) lub ID użytkownika
+$user_id_to_insert = $_SESSION['user_id'] ?? null; 
 $user_data = null;
-if (isset($_SESSION['user_id'])) {
+
+if ($user_id_to_insert !== null && $user_id_to_insert > 0) { // Tylko jeśli zalogowany
     try {
         $stmt = $pdo->prepare("SELECT full_name, email, phone, address FROM users WHERE id = ?");
-        $stmt->execute([$_SESSION['user_id']]);
+        $stmt->execute([$user_id_to_insert]);
         $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         error_log("User data fetch error: " . $e->getMessage());
@@ -60,28 +63,26 @@ $success = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
     
     // Walidacja
-    if (empty($full_name)) {
-        $errors['full_name'] = t('error_name_required');
-    }
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors['email'] = t('error_email_invalid');
-    }
-    if (empty($phone)) {
-        $errors['phone'] = t('error_phone_required');
-    }
-    if (empty($address)) {
-        $errors['address'] = t('error_address_required');
-    }
+    if (empty($full_name)) { $errors['full_name'] = t('error_name_required'); }
+    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) { $errors['email'] = t('error_email_invalid'); }
+    if (empty($phone)) { $errors['phone'] = t('error_phone_required'); }
+    if (empty($address)) { $errors['address'] = t('error_address_required'); }
     
     if (empty($errors)) {
+        // Generuj unikalny numer zamówienia
+        $order_number = 'ORD-' . date('Ymd') . '-' . strtoupper(substr(md5(uniqid()), 0, 6));
+        
         // Zapis zamówienia do bazy danych
         try {
             $pdo->beginTransaction();
             
-            // 1. Zapis do tabeli orders
-            $stmt = $pdo->prepare("INSERT INTO orders (user_id, full_name, email, phone, address, notes, total_amount, payment_method, lang) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            // 1. Zapis do tabeli orders (z order_number)
+            $stmt = $pdo->prepare("INSERT INTO orders (order_number, user_id, full_name, email, phone, address, notes, total_amount, payment_method, lang) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            
+            // user_id_to_insert będzie NULL dla gościa lub ID użytkownika
             $stmt->execute([
-                $_SESSION['user_id'] ?? null,
+                $order_number,  // DODANE!
+                $user_id_to_insert, 
                 $full_name,
                 $email,
                 $phone,
@@ -89,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
                 $notes,
                 $order_total,
                 $payment_method,
-                $current_lang 
+                $current_lang // Wymaga kolumny 'lang' w tabeli orders
             ]);
             $order_id = $pdo->lastInsertId();
             
@@ -99,7 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
                 $stmt->execute([
                     $order_id,
                     $item['product_id'],
-                    $item['name'], 
+                    // Używamy substr dla pewności, że długa nazwa nie spowoduje błędu (max 255 znaków)
+                    substr($item['name'], 0, 255), 
                     $item['quantity'],
                     $item['price']
                 ]);
@@ -114,16 +116,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_order'])) {
             
         } catch (PDOException $e) {
             $pdo->rollBack();
-            error_log("Order submission failed: " . $e->getMessage());
-            $errors['general'] = t('error_order_failed');
+            // Zapis do logów serwera (na wszelki wypadek)
+            error_log("Order submission failed (PDOException): " . $e->getMessage()); 
+            
+            // 🔴 ZMIANA DEBUGOWANIA: Wstawiamy dokładny komunikat błędu MySQL do komunikatu dla użytkownika
+            $errors['general'] = t('error_order_failed') . " [Błąd SQL: " . $e->getMessage() . "]";
         }
     }
 }
 
 $page_title = t('nav_checkout'); 
-include 'includes/header.php'; // Zakładam, że ten plik ładuje resztę nagłówka, ale na wszelki wypadek dodam tu pełny nagłówek HTML
-
-// --- Pełny nagłówek HTML dla pewności ---
+// --- Pełny kod HTML poniżej ---
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $current_lang; ?>">
@@ -135,6 +138,8 @@ include 'includes/header.php'; // Zakładam, że ten plik ładuje resztę nagł�
     <link rel="stylesheet" href="assets/css/responsive.css">
     </head>
 <body>
+<?php include 'includes/header.php'; // Załadowanie nagłówka z nawigacją ?>
+
 <main class="checkout-page">
     <div class="container">
         <h1 class="page-title">🛒 <?php echo t('nav_checkout'); ?></h1> 
@@ -148,7 +153,7 @@ include 'includes/header.php'; // Zakładam, że ten plik ładuje resztę nagł�
         <div class="checkout-grid">
             
             <div class="checkout-form-container">
-                <h2><?php echo t('checkout_personal_data'); ?></h2> 
+               <h2 class="mainers-header"><?php echo t('checkout_personal_data'); ?></h2> 
                 
                 <form method="POST" action="checkout.php">
                     
@@ -176,7 +181,7 @@ include 'includes/header.php'; // Zakładam, że ten plik ładuje resztę nagł�
                         <?php if (isset($errors['phone'])): ?><span class="error"><?php echo $errors['phone']; ?></span><?php endif; ?>
                     </div>
                     
-                    <h2><?php echo t('checkout_delivery_data'); ?></h2> 
+                    <h2 class="mainers-header"><?php echo t('checkout_delivery_data'); ?></h2>
                     
                     <div class="form-group">
                         <label for="address"><?php echo t('form_address'); ?>:</label>
@@ -191,7 +196,7 @@ include 'includes/header.php'; // Zakładam, że ten plik ładuje resztę nagł�
                                   placeholder="<?php echo t('form_notes_placeholder'); ?>"><?php echo htmlspecialchars($notes); ?></textarea>
                     </div>
 
-                    <h2><?php echo t('checkout_payment'); ?></h2> 
+                    <h2 class="mainers-header"><?php echo t('checkout_payment'); ?></h2> 
                     <div class="form-group payment-options">
                         <label>
                             <input type="radio" name="payment_method" value="transfer" checked>
@@ -252,6 +257,13 @@ include 'includes/header.php'; // Zakładam, że ten plik ładuje resztę nagł�
 </main>
 
 <style>
+/* 🟢 KROK 1: DEFINICJA ZMIENNYCH CSS */
+:root {
+    /* Kolory główne - Twoja definicja */
+    --color-primary: #1a4d2e; 
+    --color-white: #ffffff;
+}
+
 .checkout-page { padding: 40px 20px; min-height: calc(100vh - 200px); }
 .page-title { text-align: center; margin-bottom: 40px; color: #2c3e50; font-size: 2.5em; }
 .alert { padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
@@ -263,14 +275,15 @@ include 'includes/header.php'; // Zakładam, że ten plik ładuje resztę nagł�
 }
 
 /* Formularz */
-.checkout-form-container h2 {
-    color: #3498db;
+/* 🟢 KROK 2: UŻYCIE KLASY I ZMIENNEJ W NAGŁÓWKACH */
+.checkout-form-container .mainers-header { /* Używamy klasy .mainers-header dla stylizacji */
+    color: var(--color-primary); /* Ustawia kolor na #1a4d2e */
     border-bottom: 2px solid #eee;
     padding-bottom: 10px;
     margin-top: 30px;
     margin-bottom: 20px;
 }
-.checkout-form-container h2:first-child {
+.checkout-form-container .mainers-header:first-child {
     margin-top: 0;
 }
 .form-group {
@@ -398,13 +411,15 @@ include 'includes/header.php'; // Zakładam, że ten plik ładuje resztę nagł�
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    /* Używa zdefiniowanej zmiennej z :root */
+    background-color: var(--color-primary); 
+    color: var(--color-white);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    /* Cień będzie używać koloru tła, aby było spójne, jeśli chcesz */
+    box-shadow: 0 4px 12px rgba(26, 77, 46, 0.4); /* Cień dopasowany do #1a4d2e */
 }
 
 .btn-block {

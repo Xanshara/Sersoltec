@@ -2,18 +2,21 @@
     RewriteEngine On
     RewriteBase /
     
-    # UsuÅ„ .php z URLs (opcjonalnie)
+    # Usuñ .php z URLs (opcjonalnie)
     # RewriteCond %{REQUEST_FILENAME} !-f
     # RewriteCond %{REQUEST_FILENAME} !-d
     # RewriteRule ^([^\.]+)$ $1.php [NC, L]
     
-    # JÄ™zyk z query parameter
+    # Wyj¹tek dla order_success.php - nie przekierowuj tego pliku
+    RewriteCond %{REQUEST_URI} !^/order_success\.php
+    
+    # Jêzyk z query parameter
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php?%{QUERY_STRING} [QSA,L]
 </IfModule>
 
-# BezpieczeÅ„stwo
+# Bezpieczeñstwo
 <FilesMatch "\.(?:env|sql|md|psd)$">
     Deny from all
 </FilesMatch>
@@ -34,7 +37,7 @@
     </FilesMatch>
 </IfModule>
 
-# HTTPS redirect (opcjonalnie - odkomentuj jeÅ›li masz SSL)
+# HTTPS redirect (opcjonalnie - odkomentuj jeœli masz SSL)
 # <IfModule mod_rewrite.c>
 #     RewriteCond %{HTTPS} off
 #     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

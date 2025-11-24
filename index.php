@@ -176,7 +176,8 @@ $featured_products = $stmt->fetchAll();
     </div>
 </section>
 
-<?php include 'includes/footer.php'; ?>
+<?php // To jest nowy komentarz, wymuszający rewalidację PHP
+include('includes/footer.php'); ?>
 
 <script src="assets/js/main.js"></script>
 
