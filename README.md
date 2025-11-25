@@ -5,7 +5,6 @@
 **Status:** Production-ready  
 **Version:** v2.3a.0-phase1  
 **Date:** 2024-11-24  
-**Created by:** Claude (Anthropic)
 
 ---
 
