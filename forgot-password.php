@@ -149,7 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($user) {
                     // Generate token
                     $token = bin2hex(random_bytes(32));
-                    $expires = date('Y-m-d H:i:s', time() + 3600);
+                    // ZMIENIONO: 3600 sekund (1h) na 86400 sekund (24h)
+                    $expires = date('Y-m-d H:i:s', time() + 86400); 
                     
                     // Delete old tokens
                     $pdo->prepare("DELETE FROM password_resets WHERE email = ?")->execute([$email]);
@@ -170,9 +171,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ];
                     
                     $messages = [
-                        'pl' => "Witaj " . $user['first_name'] . ",\n\nKliknij ponizszy link aby zresetowac haslo:\n\n" . $link . "\n\nLink jest wazny przez 1 godzine.\n\nJesli to nie Ty wyslales prosbe, zignoruj te wiadomosc.\n\nPozdrawiamy,\nZespol SERSOLTEC",
-                        'en' => "Hello " . $user['first_name'] . ",\n\nClick the link below to reset your password:\n\n" . $link . "\n\nThis link is valid for 1 hour.\n\nIf you didn't request this, please ignore this email.\n\nBest regards,\nSERSOLTEC Team",
-                        'es' => "Hola " . $user['first_name'] . ",\n\nHaz clic en el siguiente enlace para restablecer tu contrasena:\n\n" . $link . "\n\nEste enlace es valido por 1 hora.\n\nSi no solicitaste esto, ignora este mensaje.\n\nSaludos,\nEquipo SERSOLTEC"
+                        // ZMIENIONO: z '1 godzine' na '24 godziny'
+                        'pl' => "Witaj " . $user['first_name'] . ",\n\nKliknij ponizszy link aby zresetowac haslo:\n\n" . $link . "\n\nLink jest wazny przez 24 godziny.\n\nJesli to nie Ty wyslales prosbe, zignoruj te wiadomosc.\n\nPozdrawiamy,\nZespol SERSOLTEC",
+                        // ZMIENIONO: z '1 hour' na '24 hours'
+                        'en' => "Hello " . $user['first_name'] . ",\n\nClick the link below to reset your password:\n\n" . $link . "\n\nThis link is valid for 24 hours.\n\nIf you didn't request this, please ignore this email.\n\nBest regards,\nSERSOLTEC Team",
+                        // ZMIENIONO: z '1 hora' na '24 horas'
+                        'es' => "Hola " . $user['first_name'] . ",\n\nHaz clic en el siguiente enlace para restablecer tu contrasena:\n\n" . $link . "\n\nEste enlace es valido por 24 horas.\n\nSi no solicitaste esto, ignora este mensaje.\n\nSaludos,\nEquipo SERSOLTEC"
                     ];
                     
                     $subject = $subjects[$lang];
