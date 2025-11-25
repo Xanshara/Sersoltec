@@ -370,7 +370,7 @@ Dodaj wishlist badge obok cart badge:
 
 ---
 
-## 📅 Sprint 2.2: Password Reset (Tydzień 1, dni 3-4)
+## 📅 Sprint 2.4: Password Reset (Tydzień 1, dni 3-4)
 
 ### Files to create:
 1. `forgot-password.php` - Request reset form
@@ -382,7 +382,7 @@ Dodaj wishlist badge obok cart badge:
 
 ---
 
-## 📅 Sprint 2.3: Product Comparison (Tydzień 2, dni 1-3)
+## 📅 Sprint 2.4c: Product Comparison (Tydzień 2, dni 1-3)
 
 ### Files to create:
 1. `pages/compare.php` - Comparison table
@@ -391,7 +391,7 @@ Dodaj wishlist badge obok cart badge:
 
 ---
 
-## 📅 Sprint 2.4: Reviews System (Tydzień 2, dni 4-5)
+## 📅 Sprint 2.5: Reviews System (Tydzień 2, dni 4-5)
 
 ### Files to create:
 1. `api/reviews-api.php` - Add/get reviews
