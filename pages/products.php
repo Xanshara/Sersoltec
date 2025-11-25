@@ -35,6 +35,17 @@ $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $products = $stmt->fetchAll();
 
+// Sprawdź wishlist dla wszystkich produktów NARAZ (wydajne!)
+$wishlistProducts = [];
+if (isset($_SESSION['user_id']) && !empty($products)) {
+    $productIds = array_column($products, 'id');
+    $placeholders = implode(',', array_fill(0, count($productIds), '?'));
+    $stmt_wish = $pdo->prepare("SELECT product_id FROM wishlist WHERE user_id = ? AND product_id IN ($placeholders)");
+    $stmt_wish->execute(array_merge([$_SESSION['user_id']], $productIds));
+    $wishlistItems = $stmt_wish->fetchAll();
+    $wishlistProducts = array_column($wishlistItems, 'product_id');
+}
+
 // Pobierz kategorię info jeśli wybrana
 $selected_cat_info = null;
 if ($selected_category) {
@@ -49,10 +60,13 @@ if ($selected_category) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?php echo isset($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : ''; ?>">
     <title><?php echo t('nav_products'); ?> - <?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/wishlist.css">
     <link rel="stylesheet" href="../assets/css/chatbot-widget.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -105,7 +119,21 @@ if ($selected_category) {
         <?php if ($products): ?>
             <div class="products-grid">
                 <?php foreach ($products as $product): ?>
+                    <?php $inWishlist = in_array($product['id'], $wishlistProducts); ?>
                     <div class="product-card">
+                        
+                        <!-- WISHLIST HEART ICON - TYLKO DLA ZALOGOWANYCH -->
+                        <?php if (isset($_SESSION['user_id'])): ?>
+                            <button 
+                                class="wishlist-icon-btn add-to-wishlist <?php echo $inWishlist ? 'in-wishlist' : ''; ?>" 
+                                data-product-id="<?php echo $product['id']; ?>"
+                                title="<?php echo $inWishlist ? t('wishlist_in_wishlist', $current_lang) : t('wishlist_add_to_wishlist', $current_lang); ?>"
+                                <?php echo $inWishlist ? 'disabled' : ''; ?>
+                            >
+                                <i class="fa fa-heart<?php echo $inWishlist ? '' : '-o'; ?>"></i>
+                            </button>
+                        <?php endif; ?>
+                        
                         <div class="product-image">
                             <?php if ($product['image']): ?>
                                 <img src="../assets/images/products/<?php echo htmlspecialchars($product['image']); ?>" 
@@ -201,11 +229,55 @@ if ($selected_category) {
 .product-actions form {
     flex: 1;
 }
+
+/* Wishlist Icon Button Styles */
+.product-card { 
+    position: relative; 
+    background: white; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+}
+
+.wishlist-icon-btn { 
+    position: absolute; 
+    top: 10px; 
+    right: 10px; 
+    width: 40px; 
+    height: 40px; 
+    background: white; 
+    border: none; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    cursor: pointer; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); 
+    z-index: 10; 
+    color: #666; 
+    transition: all 0.3s; 
+}
+
+.wishlist-icon-btn:hover:not(:disabled) { 
+    background: #e91e63; 
+    color: white; 
+    transform: scale(1.15); 
+}
+
+.wishlist-icon-btn.in-wishlist { 
+    background: #e91e63; 
+    color: white; 
+}
+
+.wishlist-icon-btn i { 
+    font-size: 18px; 
+}
 </style>
 
 <?php include '../includes/footer.php'; ?>
 
 <script src="../assets/js/main.js"></script>
+<script src="../assets/js/wishlist.js"></script>
 <script src="../assets/js/chatbot-widget.js"></script>
 </body>
 </html>

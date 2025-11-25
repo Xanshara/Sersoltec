@@ -419,7 +419,49 @@ $translations = [
 		'terms_section_miscellaneous_text' => 'Jeśli jakiekolwiek postanowienie Warunków Używania zostanie uznane za nieważne, pozostałe postanowienia pozostają w pełnej mocy.',
 		'terms_section_changes_title' => 'Zmiany w Warunkach',
 		'terms_section_changes_text' => 'SERSOLTEC zastrzega sobie prawo do aktualizacji Warunków Używania w dowolnym momencie. Zmiany wchodzą w życie z chwilą ich opublikowania na stronie.',
-'terms_last_updated' => 'Ostatnia aktualizacja: 23 listopada 2025',
+		'terms_last_updated' => 'Ostatnia aktualizacja: 23 listopada 2025',
+		
+        // API Messages
+        'wishlist_login_required' => 'Musisz być zalogowany, aby korzystać z listy ulubionych',
+        'wishlist_csrf_error' => 'Nieprawidłowy token bezpieczeństwa',
+        'wishlist_invalid_product' => 'Nieprawidłowe ID produktu',
+        'wishlist_product_not_found' => 'Produkt nie istnieje',
+        'wishlist_already_added' => 'Produkt jest już w ulubionych',
+        'wishlist_added_success' => 'Produkt dodany do ulubionych',
+        'wishlist_not_in_wishlist' => 'Produkt nie jest w ulubionych',
+        'wishlist_removed_success' => 'Produkt usunięty z ulubionych',
+        'wishlist_server_error' => 'Wystąpił błąd serwera',
+        
+        // Page Headers
+        'wishlist_page_title' => 'Moja lista ulubionych',
+        'wishlist_page_subtitle' => 'Produkty, które Cię zainteresowały',
+        'wishlist_count' => 'produktów',
+        
+        // Empty State
+        'wishlist_empty_title' => 'Twoja lista ulubionych jest pusta',
+        'wishlist_empty_message' => 'Dodaj produkty, które Cię interesują, aby śledzić je później',
+        'wishlist_empty_cta' => 'Przeglądaj produkty',
+        
+        // Product Card
+        'wishlist_out_of_stock' => 'Brak w magazynie',
+        'wishlist_low_stock' => 'Ostatnie sztuki',
+        'wishlist_sku' => 'SKU',
+        'wishlist_added' => 'Dodano',
+        'wishlist_add_to_cart' => 'Dodaj do koszyka',
+        'wishlist_remove' => 'Usuń',
+        'wishlist_unavailable' => 'Niedostępny',
+        'wishlist_in_wishlist' => 'W ulubionych',
+        'wishlist_add_to_wishlist' => 'Dodaj do ulubionych',
+        
+        // Navigation
+        'wishlist_my_wishlist' => 'Moja lista ulubionych',
+        'wishlist_continue_shopping' => 'Kontynuuj zakupy',
+        
+        // Notifications
+        'wishlist_notification_added' => 'Dodano do ulubionych',
+        'wishlist_notification_removed' => 'Usunięto z ulubionych',
+        'wishlist_notification_error' => 'Nie udało się wykonać operacji',
+        'wishlist_notification_confirm_remove' => 'Czy na pewno chcesz usunąć ten produkt z ulubionych?',
 	],
     
     'en' => [
@@ -841,6 +883,48 @@ $translations = [
 		'terms_section_changes_title' => 'Changes to Terms',
 		'terms_section_changes_text' => 'SERSOLTEC reserves the right to update the Terms of Use at any time. Changes become effective upon their publication on the website.',
 		'terms_last_updated' => 'Last updated: November 23, 2025',
+		
+        // API Messages
+        'wishlist_login_required' => 'You must be logged in to use the wishlist',
+        'wishlist_csrf_error' => 'Invalid security token',
+        'wishlist_invalid_product' => 'Invalid product ID',
+        'wishlist_product_not_found' => 'Product does not exist',
+        'wishlist_already_added' => 'Product is already in your wishlist',
+        'wishlist_added_success' => 'Product added to wishlist',
+        'wishlist_not_in_wishlist' => 'Product is not in your wishlist',
+        'wishlist_removed_success' => 'Product removed from wishlist',
+        'wishlist_server_error' => 'A server error occurred',
+        
+        // Page Headers
+        'wishlist_page_title' => 'My Wishlist',
+        'wishlist_page_subtitle' => 'Products you are interested in',
+        'wishlist_count' => 'items',
+        
+        // Empty State
+        'wishlist_empty_title' => 'Your wishlist is empty',
+        'wishlist_empty_message' => 'Add products you\'re interested in to track them later',
+        'wishlist_empty_cta' => 'Browse products',
+        
+        // Product Card
+        'wishlist_out_of_stock' => 'Out of stock',
+        'wishlist_low_stock' => 'Limited stock',
+        'wishlist_sku' => 'SKU',
+        'wishlist_added' => 'Added',
+        'wishlist_add_to_cart' => 'Add to cart',
+        'wishlist_remove' => 'Remove',
+        'wishlist_unavailable' => 'Unavailable',
+        'wishlist_in_wishlist' => 'In wishlist',
+        'wishlist_add_to_wishlist' => 'Add to wishlist',
+        
+        // Navigation
+        'wishlist_my_wishlist' => 'My wishlist',
+        'wishlist_continue_shopping' => 'Continue shopping',
+        
+        // Notifications
+        'wishlist_notification_added' => 'Added to wishlist',
+        'wishlist_notification_removed' => 'Removed from wishlist',
+        'wishlist_notification_error' => 'Operation failed',
+        'wishlist_notification_confirm_remove' => 'Are you sure you want to remove this product from your wishlist?',
    ],
     
     'es' => [
@@ -1262,6 +1346,48 @@ $translations = [
 		'terms_section_changes_title' => 'Cambios en las condiciones',
 		'terms_section_changes_text' => 'SERSOLTEC se reserva el derecho de actualizar las Condiciones de Uso en cualquier momento. Los cambios entrarán en vigor tan pronto como se publiquen en el sitio web.',
 		'terms_last_updated' => 'Última actualización: 23 de noviembre de 2025',
+		
+        // API Messages
+        'wishlist_login_required' => 'Debes iniciar sesión para usar la lista de deseos',
+        'wishlist_csrf_error' => 'Token de seguridad inválido',
+        'wishlist_invalid_product' => 'ID de producto inválido',
+        'wishlist_product_not_found' => 'El producto no existe',
+        'wishlist_already_added' => 'El producto ya está en tu lista de deseos',
+        'wishlist_added_success' => 'Producto añadido a la lista de deseos',
+        'wishlist_not_in_wishlist' => 'El producto no está en tu lista de deseos',
+        'wishlist_removed_success' => 'Producto eliminado de la lista de deseos',
+        'wishlist_server_error' => 'Ocurrió un error en el servidor',
+        
+        // Page Headers
+        'wishlist_page_title' => 'Mi Lista de Deseos',
+        'wishlist_page_subtitle' => 'Productos que te interesan',
+        'wishlist_count' => 'productos',
+        
+        // Empty State
+        'wishlist_empty_title' => 'Tu lista de deseos está vacía',
+        'wishlist_empty_message' => 'Añade productos que te interesen para hacer seguimiento más tarde',
+        'wishlist_empty_cta' => 'Explorar productos',
+        
+        // Product Card
+        'wishlist_out_of_stock' => 'Agotado',
+        'wishlist_low_stock' => 'Últimas unidades',
+        'wishlist_sku' => 'SKU',
+        'wishlist_added' => 'Añadido',
+        'wishlist_add_to_cart' => 'Añadir al carrito',
+        'wishlist_remove' => 'Eliminar',
+        'wishlist_unavailable' => 'No disponible',
+        'wishlist_in_wishlist' => 'En lista de deseos',
+        'wishlist_add_to_wishlist' => 'Añadir a lista de deseos',
+        
+        // Navigation
+        'wishlist_my_wishlist' => 'Mi lista de deseos',
+        'wishlist_continue_shopping' => 'Continuar comprando',
+        
+        // Notifications
+        'wishlist_notification_added' => 'Añadido a la lista de deseos',
+        'wishlist_notification_removed' => 'Eliminado de la lista de deseos',
+        'wishlist_notification_error' => 'No se pudo completar la operación',
+        'wishlist_notification_confirm_remove' => '¿Estás seguro de que quieres eliminar este producto de tu lista de deseos?',
 	]
 ];
 ?>

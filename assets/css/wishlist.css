@@ -1,0 +1,354 @@
+/**
+ * Wishlist Styles
+ * Styles for wishlist badge, notifications, and buttons
+ * 
+ * @version 1.0.0
+ * @package SERSOLTEC v2.3a
+ */
+
+/* ===================================
+   WISHLIST BADGE IN HEADER
+   =================================== */
+
+.wishlist-link {
+    position: relative;
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 24px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.wishlist-link:hover {
+    color: #e91e63;
+    transform: scale(1.1);
+}
+
+.wishlist-badge {
+    position: absolute;
+    top: 0;
+    right: 6px;
+    background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+    display: none;
+    animation: badgePop 0.3s ease;
+}
+
+@keyframes badgePop {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ===================================
+   WISHLIST NOTIFICATIONS (TOAST)
+   =================================== */
+
+.wishlist-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    min-width: 300px;
+    max-width: 400px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    padding: 16px 20px;
+    opacity: 0;
+    transform: translateX(400px);
+    transition: all 0.3s ease;
+}
+
+.wishlist-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.notification-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.notification-message {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Notification Types */
+.wishlist-notification-success {
+    border-left: 4px solid #4caf50;
+}
+
+.wishlist-notification-success .notification-icon {
+    background: #4caf50;
+    color: white;
+}
+
+.wishlist-notification-error {
+    border-left: 4px solid #f44336;
+}
+
+.wishlist-notification-error .notification-icon {
+    background: #f44336;
+    color: white;
+}
+
+.wishlist-notification-warning {
+    border-left: 4px solid #ff9800;
+}
+
+.wishlist-notification-warning .notification-icon {
+    background: #ff9800;
+    color: white;
+}
+
+.wishlist-notification-info {
+    border-left: 4px solid #2196f3;
+}
+
+.wishlist-notification-info .notification-icon {
+    background: #2196f3;
+    color: white;
+}
+
+/* ===================================
+   WISHLIST BUTTONS ON PRODUCT PAGES
+   =================================== */
+
+.add-to-wishlist {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: white;
+    border: 2px solid #e91e63;
+    color: #e91e63;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.add-to-wishlist:hover:not(:disabled) {
+    background: #e91e63;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+}
+
+.add-to-wishlist:disabled,
+.add-to-wishlist.in-wishlist {
+    background: #f0f0f0;
+    border-color: #ccc;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.add-to-wishlist i {
+    font-size: 16px;
+}
+
+/* ===================================
+   WISHLIST BUTTON STATES
+   =================================== */
+
+.add-to-wishlist.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.add-to-wishlist.loading i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===================================
+   PRODUCT CARD WISHLIST BUTTON
+   =================================== */
+
+.product-card .wishlist-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.product-card .wishlist-btn:hover {
+    background: #e91e63;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+}
+
+.product-card .wishlist-btn.in-wishlist {
+    background: #e91e63;
+    color: white;
+}
+
+.product-card .wishlist-btn i {
+    font-size: 18px;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+@media (max-width: 768px) {
+    .wishlist-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+        max-width: none;
+    }
+    
+    .wishlist-link {
+        font-size: 20px;
+        padding: 8px 12px;
+    }
+    
+    .wishlist-badge {
+        font-size: 10px;
+        padding: 2px 5px;
+        min-width: 16px;
+    }
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    10%, 30% {
+        transform: scale(1.1);
+    }
+    20%, 40% {
+        transform: scale(1.2);
+    }
+}
+
+.add-to-wishlist.added {
+    animation: heartbeat 0.8s ease;
+}
+
+/* ===================================
+   WISHLIST EMPTY STATE
+   =================================== */
+
+.empty-wishlist {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.empty-wishlist i {
+    font-size: 64px;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.empty-wishlist h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.empty-wishlist p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* ===================================
+   ACCESSIBILITY
+   =================================== */
+
+.add-to-wishlist:focus,
+.wishlist-link:focus {
+    outline: 2px solid #e91e63;
+    outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .wishlist-notification,
+    .add-to-wishlist,
+    .wishlist-link,
+    .wishlist-badge {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ===================================
+   DARK MODE SUPPORT (OPTIONAL)
+   =================================== */
+
+@media (prefers-color-scheme: dark) {
+    .wishlist-notification {
+        background: #2d2d2d;
+        color: #fff;
+    }
+    
+    .notification-message {
+        color: #fff;
+    }
+    
+    .add-to-wishlist {
+        background: #1a1a1a;
+        border-color: #e91e63;
+    }
+    
+    .add-to-wishlist:hover:not(:disabled) {
+        background: #e91e63;
+    }
+}

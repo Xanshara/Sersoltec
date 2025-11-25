@@ -45,6 +45,14 @@ $current_lang = getCurrentLanguage();
                 <?php endif; ?>
             </a>
             
+            <!-- WISHLIST HEART - TYLKO DLA ZALOGOWANYCH -->
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? '../wishlist.php' : 'wishlist.php'; ?>" class="wishlist-link" title="<?php echo t('wishlist_my_wishlist', $current_lang); ?>">
+                    <i class="fa fa-heart"></i>
+                    <span class="wishlist-badge" style="display: none;">0</span>
+                </a>
+            <?php endif; ?>
+            
             <?php if (isset($_SESSION['user_id'])): ?>
                 <div class="user-menu">
                     <button class="user-menu-btn" onclick="toggleUserMenu()">
@@ -412,6 +420,7 @@ document.addEventListener('click', function(event) {
 </script>
 
 <link rel="stylesheet" href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? '../assets/css/chatbot-widget.css' : 'assets/css/chatbot-widget.css'; ?>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <script>
     // Ustaw ścieżkę do API chatbota

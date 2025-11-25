@@ -28,6 +28,14 @@ if (!$product) {
     exit;
 }
 
+// Sprawdź czy produkt jest już w wishliście
+$inWishlist = false;
+if (isset($_SESSION['user_id'])) {
+    $stmt_wish = $pdo->prepare("SELECT id FROM wishlist WHERE user_id = ? AND product_id = ?");
+    $stmt_wish->execute([$_SESSION['user_id'], $product_id]);
+    $inWishlist = $stmt_wish->fetch() ? true : false;
+}
+
 // Pobierz podobne produkty (ta sama kategoria)
 $stmt = $pdo->prepare(
     "SELECT * FROM products WHERE category_id = ? AND id != ? AND active = 1 ORDER BY RAND() LIMIT 4"
@@ -50,11 +58,14 @@ if ($product['image'] && !in_array($product['image'], $images)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?php echo isset($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : ''; ?>">
     <meta name="description" content="<?php echo htmlspecialchars($product['description_' . $current_lang]); ?>">
     <title><?php echo htmlspecialchars($product['name_' . $current_lang]); ?> - <?php echo t('nav_products'); ?></title>
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/wishlist.css">
     <link rel="stylesheet" href="../assets/css/chatbot-widget.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -164,9 +175,25 @@ if ($product['image'] && !in_array($product['image'], $images)) {
                             </span>
                         </div>
                         
-                        <button type="submit" class="btn btn-success btn-lg" style="width: 100%; text-align: center; font-size: 18px;">
-                            🛒 <?php echo t('add_to_cart_btn'); ?>
-                        </button>
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                            <button type="submit" class="btn btn-success btn-lg" style="flex: 2; text-align: center; font-size: 18px;">
+                                🛒 <?php echo t('add_to_cart_btn'); ?>
+                            </button>
+                            
+                            <!-- WISHLIST BUTTON - TYLKO DLA ZALOGOWANYCH -->
+                            <?php if (isset($_SESSION['user_id'])): ?>
+                                <button 
+                                    type="button"
+                                    class="btn btn-wishlist add-to-wishlist <?php echo $inWishlist ? 'in-wishlist' : ''; ?>" 
+                                    data-product-id="<?php echo $product['id']; ?>"
+                                    style="flex: 1;"
+                                    <?php echo $inWishlist ? 'disabled' : ''; ?>
+                                >
+                                    <i class="fa fa-heart<?php echo $inWishlist ? '' : '-o'; ?>"></i>
+                                    <?php echo $inWishlist ? t('wishlist_in_wishlist', $current_lang) : t('wishlist_add_to_wishlist', $current_lang); ?>
+                                </button>
+                            <?php endif; ?>
+                        </div>
                     </form>
                 <?php endif; ?>
                 
@@ -238,6 +265,44 @@ if ($product['image'] && !in_array($product['image'], $images)) {
 <?php include '../includes/footer.php'; ?>
 
 <script src="../assets/js/main.js"></script>
+<script src="../assets/js/wishlist.js"></script>
 <script src="../assets/js/chatbot-widget.js"></script>
+
+<style>
+/* Wishlist Button Styles */
+.btn-wishlist {
+    background: white;
+    color: #e91e63;
+    border: 2px solid #e91e63 !important;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-wishlist:hover:not(:disabled) {
+    background: #e91e63;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.4);
+}
+
+.btn-wishlist.in-wishlist {
+    background: #ffebee;
+    border-color: #e91e63 !important;
+    color: #e91e63;
+    cursor: not-allowed;
+}
+
+.btn-wishlist i {
+    font-size: 18px;
+}
+</style>
 </body>
 </html>

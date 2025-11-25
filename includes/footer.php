@@ -122,3 +122,8 @@ if (!function_exists('getBasePath')) {
         <p style="margin: 0; font-size: 0.85rem; color: rgba(255, 255, 255, 0.7);">Designed & Code by Bartosz Rychel</p>
     </div>
 </footer>
+
+<!-- Wishlist JavaScript -->
+<script src="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? '../assets/js/wishlist.js' : 'assets/js/wishlist.js'; ?>"></script>
+</body>
+</html>
