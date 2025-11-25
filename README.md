@@ -1,9 +1,9 @@
-# 🏗️ SERSOLTEC v2.0 - Library Package
+# 🏗️ SERSOLTEC v2.3a - Library Package
 
 ## ✅ FAZA 1: KOMPLETNA
 
 **Status:** Production-ready  
-**Version:** v2.0.0-phase1  
+**Version:** v2.3a.0-phase1  
 **Date:** 2024-11-24  
 **Created by:** Claude (Anthropic)
 
@@ -27,7 +27,7 @@ outputs/
 │   ├── Email.php                    # Emaile
 │   └── Helpers.php                  # Utilities
 │
-├── 📄 MIGRATION-v2.0.sql            # SQL (8 nowych tabel)
+├── 📄 MIGRATION-v2.3a.sql            # SQL (8 nowych tabel)
 │
 ├── 📚 DOKUMENTACJA:
 │   ├── README.md                    # Ten plik - wprowadzenie
@@ -54,7 +54,7 @@ mkdir -p logs email-templates cache
 chmod 755 logs email-templates cache
 
 # 3. Uruchom migrację SQL
-mysql -u root -p sersoltec_db < MIGRATION-v2.0.sql
+mysql -u root -p sersoltec_db < MIGRATION-v2.3a.sql
 
 # 4. Dodaj do config.php (na końcu):
 echo "require_once __DIR__ . '/lib/init.php';" >> config.php
@@ -349,10 +349,10 @@ const token = document.querySelector('meta[name="csrf-token"]').content;
 ```bash
 # After installation:
 git add lib/
-git add MIGRATION-v2.0.sql
+git add MIGRATION-v2.3a.sql
 git add *.md
 git commit -m "Phase 1: Library structure"
-git tag v2.0-phase1
+git tag v2.3a-phase1
 git push origin main --tags
 ```
 
@@ -403,7 +403,7 @@ php test-lib.php
 
 **Developed by:** Claude (Anthropic)  
 **Project:** SERSOLTEC E-commerce Platform  
-**Version:** v2.0.0-phase1  
+**Version:** v2.3a.0-phase1  
 **Date:** November 24, 2024  
 **License:** Proprietary (Sersoltec)
 
@@ -411,7 +411,7 @@ php test-lib.php
 
 ## 📝 Changelog
 
-### v2.0.0-phase1 (2024-11-24)
+### v2.3a.0-phase1 (2024-11-24)
 
 **Added:**
 - ✅ Complete lib/ structure (9 files)

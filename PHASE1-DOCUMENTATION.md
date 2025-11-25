@@ -1,4 +1,4 @@
-# 📚 SERSOLTEC v2.0 - FAZA 1: Biblioteka Klas (lib/)
+# 📚 SERSOLTEC v2.3a - FAZA 1: Biblioteka Klas (lib/)
 
 ## ✅ Status: KOMPLETNA
 
@@ -410,7 +410,7 @@ cp -r lib/ /path/to/sersoltec/
 ### Krok 2: Uruchom migrację SQL
 
 ```bash
-mysql -u root -p sersoltec_db < MIGRATION-v2.0.sql
+mysql -u root -p sersoltec_db < MIGRATION-v2.3a.sql
 ```
 
 ### Krok 3: Zaktualizuj config.php
@@ -607,16 +607,16 @@ Gotowe pliki z FAZY 1 należy zcommitować:
 
 ```bash
 git add lib/
-git add MIGRATION-v2.0.sql
+git add MIGRATION-v2.3a.sql
 git commit -m "Phase 1: Library structure (Database, Auth, Validator, Logger, Security, Email, Helpers)"
-git tag v2.0-phase1
+git tag v2.3a-phase1
 ```
 
 ---
 
 ## 📝 Changelog
 
-### v2.0.0-phase1 (2024-11-24)
+### v2.3a.0-phase1 (2024-11-24)
 
 **Added:**
 - ✅ Database class (Singleton PDO wrapper)

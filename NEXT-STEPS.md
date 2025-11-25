@@ -1,4 +1,4 @@
-# 📋 SERSOLTEC v2.0 - NEXT STEPS (FAZA 2)
+# 📋 SERSOLTEC v2.3a - NEXT STEPS (FAZA 2)
 
 ## 🎯 FAZA 2: E-commerce Features
 
@@ -405,7 +405,7 @@ Dodaj wishlist badge obok cart badge:
 **START HERE:** Wishlist Implementation
 
 **Pliki do stworzenia (w tej kolejności):**
-1. ✅ SQL migration (already done in MIGRATION-v2.0.sql)
+1. ✅ SQL migration (already done in MIGRATION-v2.3a.sql)
 2. `api/wishlist-api.php` (backend first)
 3. `assets/js/wishlist.js` (JavaScript)
 4. `wishlist.php` (frontend page)
