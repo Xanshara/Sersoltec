@@ -33,6 +33,26 @@ define('ADMIN_EMAIL', 'admin@sersoltec.eu');
 define('SMTP_FROM', 'noreply@sersoltec.eu');
 define('SITE_EMAIL', CONTACT_EMAIL);
 
+
+// ===== SMTP (OVH) CONFIGURATION DLA PHPMailer =====
+// Włącza użycie SMTP (zamiast domyślnej funkcji mail() PHP)
+define('USE_SMTP', true); 
+
+// Adres serwera SMTP OVH
+define('SMTP_HOST', 'ssl0.ovh.net'); 
+
+// Port dla SMTPS (szyfrowanie SSL)
+define('SMTP_PORT', 465); 
+
+// Typ szyfrowania (potrzebny PHPMailerowi do poprawnego połączenia)
+define('SMTP_SECURE', 'ssl'); 
+
+// Pełny adres e-mail nadawcy (jako nazwa użytkownika SMTP)
+define('SMTP_USER', SMTP_FROM); // Używamy już zdefiniowanego SMTP_FROM
+
+// HASŁO DO SKRZYNKI NOREPLY@SERSOLTEC.EU (MUSISZ JE ZASTĄPIĆ!)
+define('SMTP_PASS', 'Grunwaldzka50?');
+
 // ===== STRONA =====
 define('SITE_NAME', 'Sersoltec');
 define('SITE_URL', 'https://sersoltec.eu');

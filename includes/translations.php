@@ -222,6 +222,7 @@ $translations = [
         'auth_last_name' => "Nazwisko",
         'auth_login_btn' => "Zaloguj się",
         'auth_register_btn' => "Zarejestruj się",
+		'auth_forgoten_btn' => "Zapomniałeś hasła?",
         
         // Komunikaty walidacji
         'msg_all_required' => "Wszystkie pola są wymagane",
@@ -685,6 +686,7 @@ $translations = [
         'auth_last_name' => "Last Name",
         'auth_login_btn' => "Sign In",
         'auth_register_btn' => "Sign Up",
+		'auth_forgoten_btn' => "Forgot your password?",
         
         // Validation messages
         'msg_all_required' => "All fields are required",
@@ -1148,6 +1150,7 @@ $translations = [
         'auth_last_name' => "Apellido",
         'auth_login_btn' => "Iniciar sesión",
         'auth_register_btn' => "Registrarse",
+		'auth_forgoten_btn' => "¿Olvidaste tu contraseña?",
         
         // Mensajes de validación
         'msg_all_required' => "Todos los campos son obligatorios",

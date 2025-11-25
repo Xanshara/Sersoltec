@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to {{site_name}}</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif; background-color: #f8f8f8;">
+    <table role="presentation" style="width: 100%; border-collapse: collapse; background-color: #f8f8f8;">
+        <tr>
+            <td style="padding: 40px 20px;">
+                <table role="presentation" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); overflow: hidden;">
+                    
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #2d7a4a 0%, #1a4d2e 100%); padding: 48px 40px; text-align: center;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); font-family: 'Georgia', 'Garamond', serif;">
+                                🎉 {{welcome_title}}
+                            </h1>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="padding: 48px 40px;">
+                            <h2 style="margin: 0 0 16px 0; color: #333333; font-size: 24px; font-weight: 600; font-family: 'Georgia', 'Garamond', serif;">
+                                {{greeting}} {{user_name}}!
+                            </h2>
+                            
+                            <p style="margin: 0 0 24px 0; color: #2c2c2c; font-size: 16px; line-height: 1.6;">
+                                {{welcome_message}}
+                            </p>
+                            
+                            <div style="background: #eeeeee; border-left: 4px solid #1a4d2e; padding: 20px; margin: 24px 0; border-radius: 4px;">
+                                <p style="margin: 0; color: #333333; font-size: 15px; line-height: 1.6;">
+                                    <strong>📧 {{your_email}}:</strong> {{user_email}}
+                                </p>
+                            </div>
+                            
+                            <p style="margin: 24px 0; color: #2c2c2c; font-size: 16px; line-height: 1.6;">
+                                {{verify_instruction}}
+                            </p>
+                            
+                            <table role="presentation" style="margin: 32px 0;">
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <a href="{{verification_link}}" style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #2d7a4a 0%, #1a4d2e 100%); color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 16px; font-weight: 600; box-shadow: 0 4px 12px rgba(26, 77, 46, 0.4);">
+                                            {{verify_button}}
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <p style="margin: 24px 0 0 0; color: #2c2c2c; font-size: 14px; line-height: 1.6;">
+                                {{link_not_working}}<br>
+                                <a href="{{verification_link}}" style="color: #1a4d2e; word-break: break-all;">{{verification_link}}</a>
+                            </p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="padding: 0 40px 48px 40px;">
+                            <h3 style="margin: 0 0 24px 0; color: #333333; font-size: 20px; font-weight: 600; text-align: center; font-family: 'Georgia', 'Garamond', serif;">
+                                {{what_you_can_do}}
+                            </h3>
+                            
+                            <table role="presentation" style="width: 100%;">
+                                <tr>
+                                    <td style="width: 50%; padding: 16px;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 32px; margin-bottom: 8px; color: #8b9467;">🛍️</div>
+                                            <h4 style="margin: 0 0 8px 0; color: #333333; font-size: 16px; font-weight: 600; font-family: 'Georgia', 'Garamond', serif;">{{feature_1_title}}</h4>
+                                            <p style="margin: 0; color: #2c2c2c; font-size: 14px;">{{feature_1_desc}}</p>
+                                        </div>
+                                    </td>
+                                    <td style="width: 50%; padding: 16px;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 32px; margin-bottom: 8px; color: #8b9467;">❤️</div>
+                                            <h4 style="margin: 0 0 8px 0; color: #333333; font-size: 16px; font-weight: 600; font-family: 'Georgia', 'Garamond', serif;">{{feature_2_title}}</h4>
+                                            <p style="margin: 0; color: #2c2c2c; font-size: 14px;">{{feature_2_desc}}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 50%; padding: 16px;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 32px; margin-bottom: 8px; color: #8b9467;">📦</div>
+                                            <h4 style="margin: 0 0 8px 0; color: #333333; font-size: 16px; font-weight: 600; font-family: 'Georgia', 'Garamond', serif;">{{feature_3_title}}</h4>
+                                            <p style="margin: 0; color: #2c2c2c; font-size: 14px;">{{feature_3_desc}}</p>
+                                        </div>
+                                    </td>
+                                    <td style="width: 50%; padding: 16px;">
+                                        <div style="text-align: center;">
+                                            <div style="font-size: 32px; margin-bottom: 8px; color: #8b9467;">⭐</div>
+                                            <h4 style="margin: 0 0 8px 0; color: #333333; font-size: 16px; font-weight: 600; font-family: 'Georgia', 'Garamond', serif;">{{feature_4_title}}</h4>
+                                            <p style="margin: 0; color: #2c2c2c; font-size: 14px;">{{feature_4_desc}}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="background-color: #eeeeee; padding: 32px 40px; text-align: center; border-top: 1px solid #e0e0e0;">
+                            <p style="margin: 0 0 16px 0; color: #2c2c2c; font-size: 14px;">
+                                {{thanks}}<br>
+                                <strong style="color: #1a4d2e;">{{site_name}}</strong>
+                            </p>
+                            
+                            <p style="margin: 0; color: #2c2c2c; font-size: 12px;">
+                                {{footer_text}}
+                            </p>
+                            
+                            <div style="margin-top: 16px;">
+                                <a href="{{site_url}}" style="color: #1a4d2e; text-decoration: none; font-size: 12px; margin: 0 8px;">{{visit_website}}</a>
+                                <span style="color: #e0e0e0;">|</span>
+                                <a href="mailto:{{site_email}}" style="color: #1a4d2e; text-decoration: none; font-size: 12px; margin: 0 8px;">{{contact_us}}</a>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

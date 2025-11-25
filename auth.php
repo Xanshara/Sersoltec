@@ -316,6 +316,7 @@ if ($action === 'logout') {
                     </div>
                     
                     <button type="submit" class="btn-submit"><?php echo ut('auth_login_btn'); ?></button>
+					<a href="forgot-password.php">Zapomniałeś hasła?</a>
                 </form>
                 
             <?php else: ?>
