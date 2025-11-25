@@ -1,0 +1,6 @@
+[2025-11-24 21:30:06] [DEBUG] [IP:CLI] [User:guest] Sersoltec library initialized | Context: {"version":"2.0.0","user_id":"guest"}
+[2025-11-24 21:30:06] [INFO] [IP:CLI] [User:guest] Test message from installation
+[2025-11-24 21:33:41] [DEBUG] [IP:CLI] [User:guest] Sersoltec library initialized | Context: {"version":"2.0.0","user_id":"guest"}
+[2025-11-24 21:33:41] [INFO] [IP:CLI] [User:guest] Test message from installation
+[2025-11-24 21:33:44] [DEBUG] [IP:CLI] [User:guest] Sersoltec library initialized | Context: {"version":"2.0.0","user_id":"guest"}
+[2025-11-24 21:33:44] [INFO] [IP:CLI] [User:guest] Test message from installation
