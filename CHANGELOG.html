@@ -235,9 +235,160 @@
         
         <div class="content">
 
-            <!-- v2.3 LATEST -->
+            <!-- v2.3a LATEST -->
             <div class="version latest v2">
-                <h2>v2.3 - Chatbot Extended + Navigation Upgrade 🤖 <span class="latest-badge">LATEST</span></h2>
+                <h2>v2.3a - Library Extension System 📚 <span class="latest-badge">LATEST</span></h2>
+                <div class="version-meta">
+                    <span>📅 Data: 25.11.2024</span>
+                    <span>📄 Status: MAJOR RELEASE</span>
+                    <span>⭐ Professional PHP Library + 7 New Database Tables</span>
+                </div>
+                
+                <div class="fix-detail">
+                    <strong>✨ NOWA FUNKCJONALNOŚĆ:</strong> Kompletny system biblioteki PHP z 9 klasami profesjonalnymi<br>
+                    <em>Database, Auth, Validator, Logger, Security, Email, Helpers + 7 nowych tabel SQL</em>
+                </div>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">📚 Library System (lib/)</h3>
+                <ul class="changes-list">
+                    <li><span class="badge badge-new">NEW</span><strong>Database.php</strong> - PDO wrapper, singleton pattern, query builder, transactions, query logging</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Auth.php</strong> - Complete authentication: login, register, password reset, email verification, session management, role-based access</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Validator.php</strong> - 15+ validation rules (required, email, min, max, numeric, alpha, url, unique, regex, etc.)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Logger.php</strong> - 6 log levels (DEBUG, INFO, WARNING, ERROR, CRITICAL, SECURITY), automatic rotation (5MB), email alerts</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Security.php</strong> - CSRF protection, XSS prevention, rate limiting, AES-256-GCM encryption, password hashing</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Email.php</strong> - Template system, HTML emails, pre-built methods (welcome, password reset, order confirmation)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Helpers.php</strong> - 50+ utility functions (routing, formatting, strings, arrays, file utilities)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>autoload.php</strong> - PSR-4 compliant autoloader, namespace: Sersoltec\Lib</li>
+                    <li><span class="badge badge-new">NEW</span><strong>init.php</strong> - Initialization system with full backward compatibility</li>
+                </ul>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🗄️ Database Changes</h3>
+                <ul class="changes-list">
+                    <li><span class="badge badge-new">NEW</span><strong>login_attempts</strong> - Failed login tracking for account locking (5 attempts / 15 min)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>password_resets</strong> - Token-based password reset (1-hour expiry, one-time use)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>wishlist</strong> - User wishlist functionality with timestamps</li>
+                    <li><span class="badge badge-new">NEW</span><strong>product_comparisons</strong> - Product comparison feature (session-based)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>product_reviews</strong> - Customer reviews & ratings (1-5 stars, moderation, verified purchase)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>blog_posts</strong> - Content management system (FULLTEXT search, categories, view counter)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>blog_comments</strong> - Blog comment system (moderation, spam detection)</li>
+                    <li><span class="badge badge-improve">UPDATE</span><strong>users table</strong> - Added: verification_token, email_verified_at, last_login</li>
+                </ul>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🔐 Security Features</h3>
+                <ul class="changes-list">
+                    <li><span class="badge badge-new">NEW</span><strong>CSRF Protection</strong> - 64-char tokens, session-based, automatic validation</li>
+                    <li><span class="badge badge-new">NEW</span><strong>XSS Prevention</strong> - Automatic sanitization, safe output helpers</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Account Locking</strong> - After 5 failed login attempts (15-minute lockout)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Rate Limiting</strong> - Configurable, session-based protection</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Encryption</strong> - AES-256-GCM for sensitive data</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Password Security</strong> - Bcrypt hashing, strong validation</li>
+                </ul>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">👤 Authentication System</h3>
+                <ul class="changes-list">
+                    <li><span class="badge badge-new">NEW</span><strong>Login/Logout</strong> - Complete session management, remember me</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Registration</strong> - User registration with email verification</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Password Reset</strong> - Secure token-based reset (1-hour expiry)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Session Timeout</strong> - 30 minutes (configurable)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Role-Based Access</strong> - User, admin, superadmin roles</li>
+                </ul>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">📊 Logging System</h3>
+                <ul class="changes-list">
+                    <li><span class="badge badge-new">NEW</span><strong>6 Log Levels</strong> - DEBUG, INFO, WARNING, ERROR, CRITICAL, SECURITY</li>
+                    <li><span class="badge badge-new">NEW</span><strong>5 Log Files</strong> - error.log, security.log, admin.log, email.log, debug.log</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Auto Rotation</strong> - 5MB limit, keeps 5 rotated files</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Email Alerts</strong> - Critical errors notification</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Context Tracking</strong> - IP address, user ID, timestamp</li>
+                    <li><span class="badge badge-new">NEW</span><strong>Query Logging</strong> - SQL query logging in debug mode</li>
+                </ul>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">📖 Documentation</h3>
+                <ul class="changes-list">
+                    <li><span class="badge badge-new">NEW</span><strong>README.md</strong> - Main introduction (9.3 KB)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>INSTALLATION-GUIDE.md</strong> - Step-by-step installation (15 KB)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>PHASE1-DOCUMENTATION.md</strong> - Complete API documentation (14 KB)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>QUICK-REFERENCE.md</strong> - Cheat sheet for daily use (9.2 KB)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>TROUBLESHOOTING.md</strong> - Problem solving guide (11 KB)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>CHANGELOG.md</strong> - Version history (3.5 KB)</li>
+                    <li><span class="badge badge-new">NEW</span><strong>VERSION</strong> - Version file (2.3a)</li>
+                    <li>📊 Total: ~3,500 lines of documentation with 50+ code examples</li>
+                </ul>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">⚙️ Technical Details</h3>
+                <ul class="changes-list">
+                    <li><span class="badge badge-improve">ARCH</span><strong>Singleton Pattern</strong> - Database class (single connection)</li>
+                    <li><span class="badge badge-improve">ARCH</span><strong>PSR-4 Autoloading</strong> - Namespace: Sersoltec\Lib</li>
+                    <li><span class="badge badge-improve">ARCH</span><strong>Dependency Injection</strong> - Through constructors</li>
+                    <li><span class="badge badge-improve">ARCH</span><strong>Global Helpers</strong> - db(), auth(), logger(), security(), email(), validate(), csrf_token()</li>
+                    <li><span class="badge badge-improve">ARCH</span><strong>Backward Compatible</strong> - 100% compatibility with existing code</li>
+                </ul>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">✅ Testing & Quality</h3>
+                <ul class="changes-list">
+                    <li><span class="badge badge-new">NEW</span><strong>test-lib.php</strong> - Complete installation test suite (8 tests)</li>
+                    <li><span class="badge badge-improve">TESTED</span><strong>Production Deployment</strong> - Successfully deployed and tested</li>
+                    <li><span class="badge badge-improve">TESTED</span><strong>All Tests Passing</strong> - CLI and browser tests ✅</li>
+                    <li>🎯 Quality: Production-ready code with comprehensive error handling</li>
+                </ul>
+                
+                <div class="summary">
+                    <h3>📊 v2.3a Statistics</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="number">9</div>
+                            <div class="label">PHP Classes</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="number">3,140</div>
+                            <div class="label">Lines of Code</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="number">7</div>
+                            <div class="label">New Tables</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="number">150+</div>
+                            <div class="label">Functions</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="number">~88 KB</div>
+                            <div class="label">Library Size</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="number">✓</div>
+                            <div class="label">Production Ready</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary" style="margin-top: 20px; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
+                    <h3>🎯 v2.3a Highlights</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">✅ <strong>Professional Library:</strong> 9 production-ready PHP classes (~3,140 lines)</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">✅ <strong>Database Extension:</strong> 7 new tables for advanced e-commerce features</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">✅ <strong>Security Suite:</strong> CSRF, XSS, rate limiting, encryption, account locking</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">✅ <strong>Complete Auth:</strong> Login, register, password reset, email verification</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">✅ <strong>Advanced Logging:</strong> 6 levels, 5 files, auto-rotation, email alerts</li>
+                        <li style="padding: 8px 0;">✅ <strong>Comprehensive Docs:</strong> ~3,500 lines of documentation with examples</li>
+                    </ul>
+                </div>
+                
+                <div class="summary" style="margin-top: 20px; background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);">
+                    <h3>🚀 Future - Phase 2</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">🔲 <strong>Wishlist Frontend</strong> - Complete UI with AJAX</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">🔲 <strong>Password Reset Pages</strong> - forgot-password.php, reset-password.php</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">🔲 <strong>Product Comparison</strong> - Side-by-side comparison</li>
+                        <li style="padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05);">🔲 <strong>Reviews System</strong> - Frontend for ratings & reviews</li>
+                        <li style="padding: 8px 0;">🔲 <strong>Blog Frontend</strong> - Public blog with search</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- v2.3 -->
+            <div class="version v2">
+                <h2>v2.3 - Chatbot Extended + Navigation Upgrade 🤖</h2>
                 <div class="version-meta">
                     <span>📅 Data: 23.11.2025</span>
                     <span>📄 Status: MAJOR RELEASE</span>
@@ -522,8 +673,8 @@
         </div>
         
         <footer>
-            <p>Sersoltec v2.3 - Chatbot Extended + Navigation Upgrade | Ostatnia aktualizacja: 23.11.2025 | Status: Production Ready 🚀</p>
-            <p style="margin-top: 10px; font-size: 0.9rem;">Inteligentny chatbot | Rozwijane menu | Kompaktowy formularz | Wielojęzyczność ✅</p>
+            <p>Sersoltec v2.3a - Library Extension System | Ostatnia aktualizacja: 25.11.2024 | Status: Production Ready 🚀</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Professional PHP Library | 7 New Tables | Complete Security Suite | Comprehensive Documentation ✅</p>
         </footer>
     </div>
 </body>
