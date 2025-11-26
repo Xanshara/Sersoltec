@@ -1,0 +1,583 @@
+/**
+ * SERSOLTEC v2.4 - Product Reviews Styles
+ * Sprint 2.3: Reviews System
+ */
+
+/* ========================================
+   REVIEWS SECTION
+   ======================================== */
+
+#reviews-section {
+    padding: 40px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.reviews-header {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.reviews-header h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* ========================================
+   REVIEW STATISTICS
+   ======================================== */
+
+.review-stats-summary {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 40px;
+    padding: 30px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 40px;
+}
+
+.average-rating {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.rating-number {
+    font-size: 64px;
+    font-weight: bold;
+    color: #ff9800;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.average-rating .rating-stars {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.total-reviews {
+    font-size: 14px;
+    color: #666;
+}
+
+.rating-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 10px 0;
+}
+
+.rating-bar {
+    display: grid;
+    grid-template-columns: 50px 1fr 50px;
+    align-items: center;
+    gap: 15px;
+}
+
+.rating-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.bar-container {
+    height: 20px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, #ff9800, #ffc107);
+    transition: width 0.3s ease;
+}
+
+.rating-count {
+    font-size: 14px;
+    color: #666;
+    text-align: right;
+}
+
+/* ========================================
+   STAR RATING
+   ======================================== */
+
+.stars {
+    display: inline-block;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.stars .star {
+    color: #ddd;
+    transition: color 0.2s ease;
+}
+
+.stars .star.filled {
+    color: #ff9800;
+}
+
+.stars .star.half {
+    color: #ff9800;
+    position: relative;
+}
+
+.stars .star.half::before {
+    content: '★';
+    position: absolute;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+    color: #ff9800;
+}
+
+/* Interactive stars (for rating input) */
+.stars.interactive .star {
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.stars.interactive .star:hover {
+    color: #ff9800;
+    transform: scale(1.2);
+}
+
+.stars.interactive .star.hover {
+    color: #ffc107;
+}
+
+/* ========================================
+   REVIEW SORT & FILTERS
+   ======================================== */
+
+.reviews-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 6px;
+}
+
+.reviews-controls label {
+    font-weight: 500;
+    margin-right: 10px;
+}
+
+#review-sort {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* ========================================
+   REVIEW FORM
+   ======================================== */
+
+.review-form-container {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+}
+
+.review-form-container h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#review-form {
+    max-width: 700px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #ff9800;
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+    font-size: 12px;
+}
+
+#rating-input {
+    display: none;
+}
+
+#rating-stars {
+    margin: 10px 0;
+    font-size: 32px;
+}
+
+.form-actions {
+    margin-top: 20px;
+}
+
+.btn-submit-review {
+    padding: 12px 30px;
+    background: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-submit-review:hover:not(:disabled) {
+    background: #f57c00;
+}
+
+.btn-submit-review:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+#review-message {
+    margin-top: 15px;
+    display: none;
+}
+
+#review-message .message {
+    padding: 12px 15px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#review-message .message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+#review-message .message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* ========================================
+   REVIEWS LIST
+   ======================================== */
+
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.review-item {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.review-item:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.review-rating {
+    font-size: 18px;
+}
+
+.review-meta {
+    text-align: right;
+}
+
+.review-author {
+    font-weight: 500;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.review-date {
+    font-size: 13px;
+    color: #999;
+}
+
+.review-body {
+    margin-bottom: 15px;
+}
+
+.review-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.review-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #555;
+    white-space: pre-wrap;
+}
+
+.review-footer {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-helpful,
+.btn-report {
+    padding: 8px 15px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-helpful:hover {
+    background: #e8f5e9;
+    border-color: #4caf50;
+}
+
+.btn-helpful.active {
+    background: #4caf50;
+    color: white;
+    border-color: #4caf50;
+}
+
+.btn-report:hover {
+    background: #ffebee;
+    border-color: #f44336;
+    color: #f44336;
+}
+
+/* ========================================
+   PAGINATION
+   ======================================== */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.page-btn {
+    padding: 8px 12px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.page-btn:hover:not(.active) {
+    background: #f5f5f5;
+    border-color: #ff9800;
+}
+
+.page-btn.active {
+    background: #ff9800;
+    color: white;
+    border-color: #ff9800;
+    font-weight: 600;
+}
+
+.page-dots {
+    color: #999;
+    padding: 0 5px;
+}
+
+/* ========================================
+   LOADING & EMPTY STATES
+   ======================================== */
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 16px;
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #ff9800;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.no-reviews {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+    font-size: 16px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.error {
+    text-align: center;
+    padding: 40px;
+    color: #f44336;
+    font-size: 16px;
+    background: #ffebee;
+    border-radius: 8px;
+}
+
+/* ========================================
+   AUTHENTICATION PROMPT
+   ======================================== */
+
+.auth-required {
+    background: #fff3cd;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ffc107;
+    margin-bottom: 30px;
+}
+
+.auth-required p {
+    margin: 0 0 15px 0;
+    color: #856404;
+}
+
+.auth-required a {
+    color: #ff9800;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-required a:hover {
+    text-decoration: underline;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+    .review-stats-summary {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px;
+    }
+    
+    .reviews-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .review-meta {
+        text-align: left;
+        margin-top: 10px;
+    }
+    
+    .review-footer {
+        flex-wrap: wrap;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+    }
+    
+    .page-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    #reviews-section {
+        padding: 20px 10px;
+    }
+    
+    .review-form-container,
+    .review-item {
+        padding: 15px;
+    }
+    
+    .rating-number {
+        font-size: 48px;
+    }
+    
+    .reviews-header h2 {
+        font-size: 22px;
+    }
+    
+    .review-title {
+        font-size: 16px;
+    }
+    
+    .review-text {
+        font-size: 14px;
+    }
+}

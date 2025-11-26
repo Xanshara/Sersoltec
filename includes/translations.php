@@ -463,6 +463,78 @@ $translations = [
         'wishlist_notification_removed' => 'Usunięto z ulubionych',
         'wishlist_notification_error' => 'Nie udało się wykonać operacji',
         'wishlist_notification_confirm_remove' => 'Czy na pewno chcesz usunąć ten produkt z ulubionych?',
+		
+		'blog_page_title' => 'Aktualności i Porady',
+		'blog_empty_list' => 'Obecnie brak dostępnych wpisów na blogu.',
+		'published_on' => 'Opublikowano',
+		'read_more' => 'Czytaj dalej',
+		'back_to_blog_list' => 'Powrót do listy wpisów',
+		'no_title' => '(Brak tytułu)',
+		'no_content' => 'Treść nie jest dostępna.',
+		
+        // Reviews System
+        'reviews_title' => 'Opinie klientów',
+        'reviews_add_yours' => 'Dodaj swoją opinię',
+        'reviews_rating' => 'Ocena',
+        'reviews_rating_required' => 'Ocena *',
+        'reviews_rating_click' => 'Kliknij na gwiazdki, aby wybrać ocenę (1-5)',
+        'reviews_title_label' => 'Tytuł opinii *',
+        'reviews_title_placeholder' => 'Podsumuj swoją opinię w kilku słowach',
+        'reviews_title_help' => 'Minimum 3 znaki, maksimum 255 znaków',
+        'reviews_text_label' => 'Twoja opinia *',
+        'reviews_text_placeholder' => 'Opisz swoje doświadczenie z produktem...',
+        'reviews_text_help' => 'Minimum 10 znaków, maksimum 5000 znaków',
+        'reviews_submit' => 'Wyślij opinię',
+        'reviews_submitting' => 'Wysyłanie...',
+        
+        // Rules
+        'reviews_rules_title' => '📝 Zasady dodawania opinii:',
+        'reviews_rules_moderation' => 'Opinie są moderowane przed publikacją',
+        'reviews_rules_one_per_product' => 'Możesz dodać tylko jedną opinię do produktu',
+        'reviews_rules_language' => 'Używaj kulturalnego języka',
+        'reviews_rules_experience' => 'Opisz swoje rzeczywiste doświadczenie z produktem',
+        'reviews_rules_no_personal' => 'Nie umieszczaj danych osobowych ani kontaktowych',
+        
+        // Sorting
+        'reviews_sort_by' => 'Sortuj według:',
+        'reviews_sort_newest' => 'Najnowsze',
+        'reviews_sort_oldest' => 'Najstarsze',
+        'reviews_sort_highest' => 'Najwyższe oceny',
+        'reviews_sort_lowest' => 'Najniższe oceny',
+        'reviews_sort_helpful' => 'Najbardziej pomocne',
+        
+        // Stats
+        'reviews_average' => 'Średnia ocena',
+        'reviews_total' => 'opinii',
+        'reviews_total_singular' => 'opinia',
+        'reviews_loading_stats' => 'Ładowanie statystyk...',
+        
+        // List
+        'reviews_no_reviews' => 'Brak opinii',
+        'reviews_no_reviews_message' => 'Ten produkt nie ma jeszcze żadnych opinii. Bądź pierwszy!',
+        'reviews_verified_purchase' => 'Zweryfikowany zakup',
+        'reviews_helpful' => 'Pomocne',
+        'reviews_helpful_question' => 'Czy ta opinia była pomocna?',
+        'reviews_report' => 'Zgłoś',
+        'reviews_loading' => 'Ładowanie opinii...',
+        'reviews_error_loading' => 'Błąd podczas ładowania opinii.',
+        
+        // Messages
+        'reviews_success_submitted' => 'Dziękujemy! Twoja opinia została wysłana do moderacji.',
+        'reviews_error_login_required' => 'Musisz być zalogowany, aby dodać opinię.',
+        'reviews_error_already_reviewed' => 'Już dodałeś opinię do tego produktu.',
+        'reviews_error_rating_required' => 'Wybierz ocenę (1-5 gwiazdek).',
+        'reviews_error_title_short' => 'Tytuł musi mieć minimum 3 znaki.',
+        'reviews_error_title_long' => 'Tytuł może mieć maksimum 255 znaków.',
+        'reviews_error_text_short' => 'Opinia musi mieć minimum 10 znaków.',
+        'reviews_error_text_long' => 'Opinia może mieć maksimum 5000 znaków.',
+        'reviews_error_generic' => 'Wystąpił błąd. Spróbuj ponownie.',
+        
+        // Pagination
+        'reviews_page' => 'Strona',
+        'reviews_previous' => 'Poprzednia',
+        'reviews_next' => 'Następna',
+
 	],
     
     'en' => [
@@ -927,6 +999,77 @@ $translations = [
         'wishlist_notification_removed' => 'Removed from wishlist',
         'wishlist_notification_error' => 'Operation failed',
         'wishlist_notification_confirm_remove' => 'Are you sure you want to remove this product from your wishlist?',
+		
+		'blog_page_title' => 'News & Tips',
+		'blog_empty_list' => 'There are currently no blog posts available.',
+		'published_on' => 'Published on',
+		'read_more' => 'Read more',
+		'back_to_blog_list' => 'Back to blog list',
+		'no_title' => '(No title)',
+		'no_content' => 'Content is not available.',
+		
+        // Reviews System
+        'reviews_title' => 'Customer Reviews',
+        'reviews_add_yours' => 'Add your review',
+        'reviews_rating' => 'Rating',
+        'reviews_rating_required' => 'Rating *',
+        'reviews_rating_click' => 'Click on stars to select rating (1-5)',
+        'reviews_title_label' => 'Review title *',
+        'reviews_title_placeholder' => 'Summarize your review in a few words',
+        'reviews_title_help' => 'Minimum 3 characters, maximum 255 characters',
+        'reviews_text_label' => 'Your review *',
+        'reviews_text_placeholder' => 'Describe your experience with the product...',
+        'reviews_text_help' => 'Minimum 10 characters, maximum 5000 characters',
+        'reviews_submit' => 'Submit review',
+        'reviews_submitting' => 'Submitting...',
+        
+        // Rules
+        'reviews_rules_title' => '📝 Review Guidelines:',
+        'reviews_rules_moderation' => 'Reviews are moderated before publication',
+        'reviews_rules_one_per_product' => 'You can add only one review per product',
+        'reviews_rules_language' => 'Use respectful language',
+        'reviews_rules_experience' => 'Describe your actual experience with the product',
+        'reviews_rules_no_personal' => 'Do not include personal or contact information',
+        
+        // Sorting
+        'reviews_sort_by' => 'Sort by:',
+        'reviews_sort_newest' => 'Newest',
+        'reviews_sort_oldest' => 'Oldest',
+        'reviews_sort_highest' => 'Highest rated',
+        'reviews_sort_lowest' => 'Lowest rated',
+        'reviews_sort_helpful' => 'Most helpful',
+        
+        // Stats
+        'reviews_average' => 'Average rating',
+        'reviews_total' => 'reviews',
+        'reviews_total_singular' => 'review',
+        'reviews_loading_stats' => 'Loading statistics...',
+        
+        // List
+        'reviews_no_reviews' => 'No reviews',
+        'reviews_no_reviews_message' => 'This product has no reviews yet. Be the first!',
+        'reviews_verified_purchase' => 'Verified purchase',
+        'reviews_helpful' => 'Helpful',
+        'reviews_helpful_question' => 'Was this review helpful?',
+        'reviews_report' => 'Report',
+        'reviews_loading' => 'Loading reviews...',
+        'reviews_error_loading' => 'Error loading reviews.',
+        
+        // Messages
+        'reviews_success_submitted' => 'Thank you! Your review has been submitted for moderation.',
+        'reviews_error_login_required' => 'You must be logged in to add a review.',
+        'reviews_error_already_reviewed' => 'You have already reviewed this product.',
+        'reviews_error_rating_required' => 'Please select a rating (1-5 stars).',
+        'reviews_error_title_short' => 'Title must be at least 3 characters.',
+        'reviews_error_title_long' => 'Title can be maximum 255 characters.',
+        'reviews_error_text_short' => 'Review must be at least 10 characters.',
+        'reviews_error_text_long' => 'Review can be maximum 5000 characters.',
+        'reviews_error_generic' => 'An error occurred. Please try again.',
+        
+        // Pagination
+        'reviews_page' => 'Page',
+        'reviews_previous' => 'Previous',
+        'reviews_next' => 'Next',
    ],
     
     'es' => [
@@ -1391,6 +1534,77 @@ $translations = [
         'wishlist_notification_removed' => 'Eliminado de la lista de deseos',
         'wishlist_notification_error' => 'No se pudo completar la operación',
         'wishlist_notification_confirm_remove' => '¿Estás seguro de que quieres eliminar este producto de tu lista de deseos?',
+		
+		'blog_page_title' => 'Aktuelles & Tipps',
+		'blog_empty_list' => 'Derzeit sind keine Blog-Beiträge verfügbar.',
+		'published_on' => 'Veröffentlicht am',
+		'read_more' => 'Weiterlesen',
+		'back_to_blog_list' => 'Zurück zur Blog-Liste',
+		'no_title' => '(Kein Titel)',
+		'no_content' => 'Inhalt nicht verfügbar.',
+		
+        // Reviews System
+        'reviews_title' => 'Opiniones de clientes',
+        'reviews_add_yours' => 'Añade tu opinión',
+        'reviews_rating' => 'Calificación',
+        'reviews_rating_required' => 'Calificación *',
+        'reviews_rating_click' => 'Haz clic en las estrellas para seleccionar la calificación (1-5)',
+        'reviews_title_label' => 'Título de la opinión *',
+        'reviews_title_placeholder' => 'Resume tu opinión en pocas palabras',
+        'reviews_title_help' => 'Mínimo 3 caracteres, máximo 255 caracteres',
+        'reviews_text_label' => 'Tu opinión *',
+        'reviews_text_placeholder' => 'Describe tu experiencia con el producto...',
+        'reviews_text_help' => 'Mínimo 10 caracteres, máximo 5000 caracteres',
+        'reviews_submit' => 'Enviar opinión',
+        'reviews_submitting' => 'Enviando...',
+        
+        // Rules
+        'reviews_rules_title' => '📝 Normas para añadir opiniones:',
+        'reviews_rules_moderation' => 'Las opiniones son moderadas antes de su publicación',
+        'reviews_rules_one_per_product' => 'Solo puedes añadir una opinión por producto',
+        'reviews_rules_language' => 'Utiliza un lenguaje respetuoso',
+        'reviews_rules_experience' => 'Describe tu experiencia real con el producto',
+        'reviews_rules_no_personal' => 'No incluyas datos personales ni de contacto',
+        
+        // Sorting
+        'reviews_sort_by' => 'Ordenar por:',
+        'reviews_sort_newest' => 'Más recientes',
+        'reviews_sort_oldest' => 'Más antiguas',
+        'reviews_sort_highest' => 'Mejor valoradas',
+        'reviews_sort_lowest' => 'Peor valoradas',
+        'reviews_sort_helpful' => 'Más útiles',
+        
+        // Stats
+        'reviews_average' => 'Calificación media',
+        'reviews_total' => 'opiniones',
+        'reviews_total_singular' => 'opinión',
+        'reviews_loading_stats' => 'Cargando estadísticas...',
+        
+        // List
+        'reviews_no_reviews' => 'Sin opiniones',
+        'reviews_no_reviews_message' => 'Este producto aún no tiene opiniones. ¡Sé el primero!',
+        'reviews_verified_purchase' => 'Compra verificada',
+        'reviews_helpful' => 'Útil',
+        'reviews_helpful_question' => '¿Te resultó útil esta opinión?',
+        'reviews_report' => 'Reportar',
+        'reviews_loading' => 'Cargando opiniones...',
+        'reviews_error_loading' => 'Error al cargar opiniones.',
+        
+        // Messages
+        'reviews_success_submitted' => '¡Gracias! Tu opinión ha sido enviada para moderación.',
+        'reviews_error_login_required' => 'Debes iniciar sesión para añadir una opinión.',
+        'reviews_error_already_reviewed' => 'Ya has opinado sobre este producto.',
+        'reviews_error_rating_required' => 'Selecciona una calificación (1-5 estrellas).',
+        'reviews_error_title_short' => 'El título debe tener al menos 3 caracteres.',
+        'reviews_error_title_long' => 'El título puede tener máximo 255 caracteres.',
+        'reviews_error_text_short' => 'La opinión debe tener al menos 10 caracteres.',
+        'reviews_error_text_long' => 'La opinión puede tener máximo 5000 caracteres.',
+        'reviews_error_generic' => 'Ocurrió un error. Por favor, inténtalo de nuevo.',
+        
+        // Pagination
+        'reviews_page' => 'Página',
+        'reviews_previous' => 'Anterior',
+        'reviews_next' => 'Siguiente',
 	]
 ];
 ?>

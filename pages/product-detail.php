@@ -65,6 +65,7 @@ if ($product['image'] && !in_array($product['image'], $images)) {
     <link rel="stylesheet" href="../assets/css/responsive.css">
     <link rel="stylesheet" href="../assets/css/wishlist.css">
     <link rel="stylesheet" href="../assets/css/chatbot-widget.css">
+	<link rel="stylesheet" href="../assets/css/reviews.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -262,8 +263,15 @@ if ($product['image'] && !in_array($product['image'], $images)) {
     </section>
 <?php endif; ?>
 
+<?php 
+// Reviews Section - BEFORE footer
+$productId = (int)$_GET['id'];
+include '../includes/review-list.php'; 
+?>
+
 <?php include '../includes/footer.php'; ?>
 
+<script src="../assets/js/reviews.js"></script>
 <script src="../assets/js/main.js"></script>
 <script src="../assets/js/wishlist.js"></script>
 <script src="../assets/js/chatbot-widget.js"></script>
