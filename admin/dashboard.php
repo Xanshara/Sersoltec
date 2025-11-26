@@ -1,7 +1,7 @@
 <?php
 /**
  * SERSOLTEC - ADMIN DASHBOARD
- * Panel gÅ‚Ã³wny z statystykami
+ * Panel g?¨®wny z statystykami
  */
 
 require_once 'admin-auth.php';
@@ -22,7 +22,7 @@ $stats['products'] = $stmt->fetch();
 $stmt = $pdo->query("SELECT COUNT(*) FROM categories WHERE active = 1");
 $stats['categories'] = $stmt->fetchColumn();
 
-// ZamÃ³wienia
+// Zam¨®wienia
 $stmt = $pdo->query("SELECT COUNT(*) as total,
                      SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
                      SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completed
@@ -37,6 +37,14 @@ $stmt = $pdo->query("SELECT COUNT(*) as total,
                      FROM inquiries");
 $stats['inquiries'] = $stmt->fetch();
 
+// Opinie
+$stmt = $pdo->query("SELECT COUNT(*) as total,
+                     SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
+                     SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) as approved,
+                     SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected
+                     FROM product_reviews");
+$stats['reviews'] = $stmt->fetch();
+
 // Kalkulacje okien (ostatnie 30 dni)
 $stmt = $pdo->query("SELECT COUNT(*) FROM window_calculations 
                      WHERE created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)");
@@ -46,7 +54,7 @@ $stats['calculations'] = $stmt->fetchColumn();
 $stmt = $pdo->query("SELECT * FROM inquiries ORDER BY created_at DESC LIMIT 5");
 $recent_inquiries = $stmt->fetchAll();
 
-// Ostatnie zamÃ³wienia (5 najnowszych)
+// Ostatnie zam¨®wienia (5 najnowszych)
 $stmt = $pdo->query("SELECT * FROM orders ORDER BY created_at DESC LIMIT 5");
 $recent_orders = $stmt->fetchAll();
 
@@ -66,34 +74,41 @@ include 'admin-header.php';
 <!-- Stats Grid -->
 <div class="stats-grid">
     <div class="stat-card">
-        <div class="stat-icon">ğŸ“¦</div>
+        <div class="stat-icon">??</div>
         <div class="stat-number"><?php echo $stats['products']['total']; ?></div>
         <div class="stat-label">Wszystkie Produkty</div>
         <small style="color: #4caf50;"><?php echo $stats['products']['active']; ?> aktywnych</small>
     </div>
     
     <div class="stat-card">
-        <div class="stat-icon">ğŸ“‚</div>
+        <div class="stat-icon">??</div>
         <div class="stat-number"><?php echo $stats['categories']; ?></div>
         <div class="stat-label">Kategorie</div>
     </div>
     
     <div class="stat-card">
-        <div class="stat-icon">ğŸ›’</div>
+        <div class="stat-icon">??</div>
         <div class="stat-number"><?php echo $stats['orders']['total']; ?></div>
-        <div class="stat-label">ZamÃ³wienia</div>
-        <small style="color: #ff9800;"><?php echo $stats['orders']['pending']; ?> oczekujÄ…cych</small>
+        <div class="stat-label">Zam¨®wienia</div>
+        <small style="color: #ff9800;"><?php echo $stats['orders']['pending']; ?> oczekuj?cych</small>
     </div>
     
     <div class="stat-card">
-        <div class="stat-icon">ğŸ’¬</div>
+        <div class="stat-icon">??</div>
         <div class="stat-number"><?php echo $stats['inquiries']['total']; ?></div>
         <div class="stat-label">Zapytania</div>
         <small style="color: #f44336;"><?php echo $stats['inquiries']['new']; ?> nowych</small>
     </div>
     
     <div class="stat-card">
-        <div class="stat-icon">ğŸ§®</div>
+        <div class="stat-icon">?</div>
+        <div class="stat-number"><?php echo $stats['reviews']['total']; ?></div>
+        <div class="stat-label">Opinie</div>
+        <small style="color: #ff9800;"><?php echo $stats['reviews']['pending']; ?> oczekuj?cych</small>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-icon">??</div>
         <div class="stat-number"><?php echo $stats['calculations']; ?></div>
         <div class="stat-label">Kalkulacje (30 dni)</div>
     </div>
@@ -108,7 +123,7 @@ include 'admin-header.php';
             <thead>
                 <tr>
                     <th>Data</th>
-                    <th>ImiÄ™</th>
+                    <th>Imi?</th>
                     <th>Email</th>
                     <th>Temat</th>
                     <th>Status</th>
@@ -161,8 +176,8 @@ include 'admin-header.php';
         </div>
     <?php else: ?>
         <div class="empty-state">
-            <div class="empty-state-icon">ğŸ“­</div>
-            <p>Brak zapytaÅ„</p>
+            <div class="empty-state-icon">??</div>
+            <p>Brak zapyta¨½</p>
         </div>
     <?php endif; ?>
 </div>
@@ -179,7 +194,7 @@ include 'admin-header.php';
                     <th>Nazwa</th>
                     <th>Kategoria</th>
                     <th>Cena</th>
-                    <th>ZamÃ³wieÅ„</th>
+                    <th>Zam¨®wie¨½</th>
                     <th>Akcje</th>
                 </tr>
             </thead>
@@ -202,8 +217,8 @@ include 'admin-header.php';
         </table>
     <?php else: ?>
         <div class="empty-state">
-            <div class="empty-state-icon">ğŸ“¦</div>
-            <p>Brak produktÃ³w</p>
+            <div class="empty-state-icon">??</div>
+            <p>Brak produkt¨®w</p>
         </div>
     <?php endif; ?>
 </div>
@@ -214,16 +229,16 @@ include 'admin-header.php';
     
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
         <a href="product-edit.php" class="btn btn-primary" style="text-align: center;">
-            â• Dodaj Produkt
+            ? Dodaj Produkt
         </a>
         <a href="products.php" class="btn btn-outline" style="text-align: center;">
-            ğŸ“¦ ZarzÄ…dzaj Produktami
+            ?? Zarz?dzaj Produktami
         </a>
         <a href="inquiries.php" class="btn btn-outline" style="text-align: center;">
-            ğŸ’¬ Zobacz Zapytania
+            ?? Zobacz Zapytania
         </a>
         <a href="settings.php" class="btn btn-outline" style="text-align: center;">
-            âš™ï¸ Ustawienia
+            ?? Ustawienia
         </a>
     </div>
 </div>

@@ -1,135 +1,70 @@
 <?php
 /**
- * SERSOLTEC v2.4 - Review Form Component
- * Sprint 2.3: Reviews System
- * 
- * Include this in product-detail.php to display review submission form
- * Usage: include 'includes/review-form.php';
+ * SERSOLTEC v2.4 - Review Form with i18n
  */
 
-// Check if user is logged in (check multiple possible session variables)
+// Check if user is logged in
 $isLoggedIn = isset($_SESSION['user_id']) || isset($_SESSION['id']) || (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true);
-$userName = '';
-if ($isLoggedIn) {
-    $userName = $_SESSION['user_name'] ?? $_SESSION['name'] ?? $_SESSION['username'] ?? 'User';
-}
 ?>
 
 <div class="review-form-container">
-    <h3><?php echo $isLoggedIn ? 'Dodaj swoją opinię' : 'Zaloguj się, aby dodać opinię'; ?></h3>
-    
-    <?php if (!$isLoggedIn): ?>
-        <!-- Not logged in - show prompt -->
-        <div class="auth-required">
-            <p>Aby dodać opinię, musisz być zalogowany.</p>
-            <a href="/login.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>" class="btn-login">
-                Zaloguj się
-            </a>
-            lub
-            <a href="/register.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>" class="btn-register">
-                Zarejestruj się
-            </a>
-        </div>
-        
-    <?php else: ?>
-        <!-- Logged in - show form -->
-        <form id="review-form" method="post">
-            
-            <!-- Rating -->
+    <?php if ($isLoggedIn): ?>
+        <h3><?php echo t('reviews_add_yours'); ?></h3>
+        <form id="review-form" class="review-form">
             <div class="form-group">
-                <label for="rating-input">Ocena *</label>
-                <input type="hidden" id="rating-input" name="rating" required>
+                <label for="rating"><?php echo t('reviews_rating_required'); ?></label>
                 <div id="rating-stars"></div>
-                <small>Kliknij na gwiazdki, aby wybrać ocenę (1-5)</small>
+                <input type="hidden" id="rating-input" name="rating" required>
+                <small class="form-help"><?php echo t('reviews_rating_click'); ?></small>
             </div>
             
-            <!-- Title -->
             <div class="form-group">
-                <label for="review-title">Tytuł opinii *</label>
+                <label for="review-title"><?php echo t('reviews_title_label'); ?></label>
                 <input 
                     type="text" 
                     id="review-title" 
                     name="title" 
-                    placeholder="Krótko podsumuj swoją opinię"
+                    required 
+                    minlength="3" 
                     maxlength="255"
-                    required
+                    placeholder="<?php echo htmlspecialchars(t('reviews_title_placeholder')); ?>"
                 >
-                <small>Minimum 3 znaki, maksimum 255 znaków</small>
+                <small class="form-help"><?php echo t('reviews_title_help'); ?></small>
             </div>
             
-            <!-- Review text -->
             <div class="form-group">
-                <label for="review-text">Twoja opinia *</label>
+                <label for="review-text"><?php echo t('reviews_text_label'); ?></label>
                 <textarea 
                     id="review-text" 
                     name="review_text" 
-                    placeholder="Podziel się swoim doświadczeniem z produktem. Co Ci się podobało? Co mogłoby być lepsze?"
+                    required 
+                    minlength="10" 
                     maxlength="5000"
-                    required
+                    rows="5"
+                    placeholder="<?php echo htmlspecialchars(t('reviews_text_placeholder')); ?>"
                 ></textarea>
-                <small>Minimum 10 znaków, maksimum 5000 znaków</small>
+                <small class="form-help"><?php echo t('reviews_text_help'); ?></small>
             </div>
             
-            <!-- Submit button -->
-            <div class="form-actions">
-                <button type="submit" class="btn-submit-review">
-                    Wyślij opinię
-                </button>
-            </div>
-            
-            <!-- Message container -->
-            <div id="review-message"></div>
-            
+            <button type="submit" class="btn btn-primary" id="submit-review">
+                <?php echo t('reviews_submit'); ?>
+            </button>
         </form>
         
-        <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-radius: 4px; font-size: 13px;">
-            <strong>📝 Zasady dodawania opinii:</strong>
-            <ul style="margin: 10px 0 0 20px; line-height: 1.6;">
-                <li>Opinie są moderowane przed publikacją</li>
-                <li>Możesz dodać tylko jedną opinię do produktu</li>
-                <li>Używaj kulturalnego języka</li>
-                <li>Opisz swoje rzeczywiste doświadczenie z produktem</li>
-                <li>Nie umieszczaj danych osobowych ani kontaktowych</li>
+        <div class="review-guidelines">
+            <strong><?php echo t('reviews_rules_title'); ?></strong>
+            <ul>
+                <li><?php echo t('reviews_rules_moderation'); ?></li>
+                <li><?php echo t('reviews_rules_one_per_product'); ?></li>
+                <li><?php echo t('reviews_rules_language'); ?></li>
+                <li><?php echo t('reviews_rules_experience'); ?></li>
+                <li><?php echo t('reviews_rules_no_personal'); ?></li>
             </ul>
         </div>
+    <?php else: ?>
+        <p class="login-required">
+            <?php echo t('reviews_error_login_required'); ?>
+            <a href="/login.php"><?php echo t('nav_login'); ?></a>
+        </p>
     <?php endif; ?>
 </div>
-
-<style>
-/* Additional inline styles for auth buttons */
-.auth-required {
-    background: #fff3cd;
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #ffc107;
-}
-
-.auth-required p {
-    margin: 0 0 15px 0;
-    color: #856404;
-}
-
-.auth-required a {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #ff9800;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 600;
-    margin-right: 10px;
-    transition: background 0.3s ease;
-}
-
-.auth-required a:hover {
-    background: #f57c00;
-}
-
-.auth-required a.btn-register {
-    background: #4caf50;
-}
-
-.auth-required a.btn-register:hover {
-    background: #45a049;
-}
-</style>

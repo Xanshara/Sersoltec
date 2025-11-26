@@ -33,6 +33,9 @@
             <a href="categories.php" class="admin-nav-item <?php echo basename($_SERVER['PHP_SELF']) === 'categories.php' ? 'active' : ''; ?>">
                 📂 Kategorie
             </a>
+            <a href="reviews.php" class="admin-nav-item <?php echo basename($_SERVER['PHP_SELF']) === 'reviews.php' ? 'active' : ''; ?>">
+                ⭐ Opinie
+            </a>
             <a href="orders.php" class="admin-nav-item <?php echo basename($_SERVER['PHP_SELF']) === 'orders.php' ? 'active' : ''; ?>">
                 🛒 Zamówienia
             </a>
@@ -40,16 +43,19 @@
                 💬 Zapytania
             </a>
             
-            <div class="admin-nav-divider"></div>
+            <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 1rem 0;"></div>
             
+            <a href="blog.php" class="admin-nav-item <?php echo basename($_SERVER['PHP_SELF']) === 'blog.php' || basename($_SERVER['PHP_SELF']) === 'blog-edit.php' ? 'active' : ''; ?>">
+                📝 Blog
+            </a>
             <a href="shop-users.php" class="admin-nav-item <?php echo basename($_SERVER['PHP_SELF']) === 'shop-users.php' ? 'active' : ''; ?>">
                 👥 Klienci sklepu
             </a>
             <a href="users.php" class="admin-nav-item <?php echo basename($_SERVER['PHP_SELF']) === 'users.php' ? 'active' : ''; ?>">
-                🔐 Administratorzy
+                🔑 Administratorzy
             </a>
             
-            <div class="admin-nav-divider"></div>
+            <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 1rem 0;"></div>
             
             <a href="settings.php" class="admin-nav-item <?php echo basename($_SERVER['PHP_SELF']) === 'settings.php' ? 'active' : ''; ?>">
                 ⚙️ Ustawienia

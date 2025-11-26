@@ -13,6 +13,10 @@
 (function() {
     'use strict';
     
+    // i18n support - get translations from PHP
+    const i18n = window.REVIEWS_I18N || {};
+    const t = (key) => i18n[key] || key;
+    
     // Configuration
     const API_URL = '../api/reviews-api.php';
     let currentProductId = null;
@@ -163,7 +167,7 @@
             });
             
             const helpfulClass = review.is_helpful ? 'active' : '';
-            const helpfulText = review.is_helpful ? 'Pomocne ✓' : 'Pomocne?';
+            const helpfulText = review.is_helpful ? `${t('helpful')} ✓` : `${t('helpful')}?`;
             
             return `
                 <div class="review-item" data-review-id="${review.id}">
@@ -183,7 +187,7 @@
                             ${helpfulText} (${review.helpful_count})
                         </button>
                         <button class="btn-report" data-review-id="${review.id}">
-                            Zgłoś
+                            ${t('report')}
                         </button>
                     </div>
                 </div>
@@ -460,10 +464,10 @@
                     // Update button
                     if (is_helpful) {
                         button.classList.add('active');
-                        button.textContent = `Pomocne ✓ (${helpful_count})`;
+                        button.textContent = `${t('helpful')} ✓ (${helpful_count})`;
                     } else {
                         button.classList.remove('active');
-                        button.textContent = `Pomocne? (${helpful_count})`;
+                        button.textContent = `${t('helpful')}? (${helpful_count})`;
                     }
                 } else {
                     if (response.status === 401) {

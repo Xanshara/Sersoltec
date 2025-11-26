@@ -1,12 +1,7 @@
 <?php
 /**
- * SERSOLTEC v2.4 - Review List Component
+ * SERSOLTEC v2.4 - Review List Component with i18n
  * Sprint 2.3: Reviews System
- * 
- * Include this in product-detail.php to display reviews
- * Usage: 
- *   $productId = 123; // Set product ID
- *   include 'includes/review-list.php';
  */
 
 // Make sure $productId is set
@@ -14,44 +9,84 @@ if (!isset($productId) || !$productId) {
     echo '<div class="error">Product ID not set</div>';
     return;
 }
+
+// Get current language
+$current_lang = getCurrentLanguage();
+
+// Prepare translations for JavaScript
+$jsTranslations = [
+    'sort_newest' => t('reviews_sort_newest'),
+    'sort_oldest' => t('reviews_sort_oldest'),
+    'sort_highest' => t('reviews_sort_highest'),
+    'sort_lowest' => t('reviews_sort_lowest'),
+    'sort_helpful' => t('reviews_sort_helpful'),
+    'loading' => t('reviews_loading'),
+    'loading_stats' => t('reviews_loading_stats'),
+    'error_loading' => t('reviews_error_loading'),
+    'no_reviews' => t('reviews_no_reviews'),
+    'no_reviews_message' => t('reviews_no_reviews_message'),
+    'verified_purchase' => t('reviews_verified_purchase'),
+    'helpful' => t('reviews_helpful'),
+    'report' => t('reviews_report'),
+    'submitting' => t('reviews_submitting'),
+    'success_submitted' => t('reviews_success_submitted'),
+    'error_login_required' => t('reviews_error_login_required'),
+    'error_already_reviewed' => t('reviews_error_already_reviewed'),
+    'error_rating_required' => t('reviews_error_rating_required'),
+    'error_title_short' => t('reviews_error_title_short'),
+    'error_title_long' => t('reviews_error_title_long'),
+    'error_text_short' => t('reviews_error_text_short'),
+    'error_text_long' => t('reviews_error_text_long'),
+    'error_generic' => t('reviews_error_generic'),
+    'total' => t('reviews_total'),
+    'total_singular' => t('reviews_total_singular'),
+    'average' => t('reviews_average'),
+];
 ?>
 
 <!-- Reviews Section -->
 <section id="reviews-section">
-    
-    <!-- Section Header -->
-    <div class="reviews-header">
-        <h2>Opinie klientów</h2>
-    </div>
-    
-    <!-- Review Statistics -->
-    <div id="review-stats">
-        <div class="loading">Ładowanie statystyk...</div>
-    </div>
-    
-    <!-- Review Form -->
-    <?php include __DIR__ . '/review-form.php'; ?>
-    
-    <!-- Sort Controls -->
-    <div class="reviews-controls">
-        <div>
-            <label for="review-sort">Sortuj według:</label>
-            <select id="review-sort">
-                <option value="newest">Najnowsze</option>
-                <option value="oldest">Najstarsze</option>
-                <option value="highest">Najwyższe oceny</option>
-                <option value="lowest">Najniższe oceny</option>
-                <option value="helpful">Najbardziej pomocne</option>
+    <div class="reviews-container">
+        
+        <!-- Section Title -->
+        <h2 class="reviews-title"><?php echo t('reviews_title'); ?></h2>
+        
+        <!-- Statistics -->
+        <div id="review-stats" class="review-stats">
+            <div class="loading"><?php echo t('reviews_loading_stats'); ?></div>
+        </div>
+        
+        <!-- Add Review Form -->
+        <?php include __DIR__ . '/review-form.php'; ?>
+        
+        <!-- Sort & Filter -->
+        <div class="reviews-controls">
+            <label for="review-sort"><?php echo t('reviews_sort_by'); ?></label>
+            <select id="review-sort" class="sort-select">
+                <option value="newest"><?php echo t('reviews_sort_newest'); ?></option>
+                <option value="oldest"><?php echo t('reviews_sort_oldest'); ?></option>
+                <option value="highest"><?php echo t('reviews_sort_highest'); ?></option>
+                <option value="lowest"><?php echo t('reviews_sort_lowest'); ?></option>
+                <option value="helpful"><?php echo t('reviews_sort_helpful'); ?></option>
             </select>
         </div>
+        
+        <!-- Reviews List -->
+        <div id="reviews-list" class="reviews-list">
+            <div class="loading"><?php echo t('reviews_loading'); ?></div>
+        </div>
+        
+        <!-- Pagination -->
+        <div id="reviews-pagination" class="pagination"></div>
+        
     </div>
-    
-    <!-- Reviews List -->
-    <div id="reviews-list">
-        <div class="loading">Ładowanie opinii...</div>
-    </div>
-    
 </section>
+
+<!-- Pass translations to JavaScript -->
+<script>
+    window.REVIEWS_I18N = <?php echo json_encode($jsTranslations, JSON_UNESCAPED_UNICODE); ?>;
+    window.REVIEWS_LANG = '<?php echo $current_lang; ?>';
+</script>
 
 <!-- Initialize Reviews JavaScript -->
 <script>
