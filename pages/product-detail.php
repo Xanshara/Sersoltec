@@ -2,8 +2,6 @@
 // ===== SZCZEGÓŁY PRODUKTU =====
 
 require_once '../config.php';
-// UWAGA: Usunięto require_once '../includes/translations.php'; 
-// Ponieważ plik about.php dowiódł, że translations.php jest już dołączany przez config.php!
 
 $current_lang = getCurrentLanguage();
 $product_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -62,8 +60,8 @@ if ($product['image'] && !in_array($product['image'], $images)) {
     <meta name="description" content="<?php echo htmlspecialchars($product['description_' . $current_lang]); ?>">
     <title><?php echo htmlspecialchars($product['name_' . $current_lang]); ?> - <?php echo t('nav_products'); ?></title>
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="../assets/css/responsive.css">
-    <link rel="stylesheet" href="../assets/css/wishlist.css">
+   <link rel="stylesheet" href="../assets/css/responsive.css">
+ <!--    <link rel="stylesheet" href="../assets/css/wishlist.css"> -->
     <link rel="stylesheet" href="../assets/css/chatbot-widget.css">
 	<link rel="stylesheet" href="../assets/css/reviews.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -154,7 +152,7 @@ if ($product['image'] && !in_array($product['image'], $images)) {
                 </div>
             <?php endif; ?>
             
-<div style="margin-top: 2rem;">
+            <div style="margin-top: 2rem;">
                 <?php if ($product['price_base']): ?>
                     <form method="POST" action="../cart.php" style="margin-bottom: 1rem;">
                         <input type="hidden" name="action" value="add">
@@ -195,6 +193,31 @@ if ($product['image'] && !in_array($product['image'], $images)) {
                                 </button>
                             <?php endif; ?>
                         </div>
+                        
+                        <!-- COMPARISON BUTTON - FIXED -->
+                        <button 
+                            type="button"
+                            class="btn-compare-detail" 
+                            onclick="addToComparisonDetail(<?php echo $product['id']; ?>, this)"
+                            style="
+                                display: inline-flex;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 8px;
+                                background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+                                color: var(--color-white);
+                                border: none;
+                                padding: var(--spacing-sm) var(--spacing-lg);
+                                border-radius: var(--radius-md);
+                                font-size: 0.95rem;
+                                font-weight: 600;
+                                cursor: pointer;
+                                transition: all var(--transition-normal);
+                                width: 100%;
+                                margin-bottom: 1rem;
+                            ">
+                            ⚖️ Dodaj do porównania
+                        </button>
                     </form>
                 <?php endif; ?>
                 
@@ -276,6 +299,48 @@ include '../includes/review-list.php';
 <script src="../assets/js/wishlist.js"></script>
 <script src="../assets/js/chatbot-widget.js"></script>
 
+<script>
+// Comparison function for product-detail page
+function addToComparisonDetail(productId, button) {
+    if (button.disabled) return;
+    
+    button.disabled = true;
+    button.innerHTML = '⏳ Dodawanie...';
+    
+    fetch('/sersoltec/api/comparison-api.php?action=add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: productId })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            button.innerHTML = '✓ Dodano!';
+            button.style.background = 'linear-gradient(135deg, #4CAF50 0%, #388E3C 100%)';
+            
+            // Show alert
+            alert('✓ Produkt dodany do porównania!');
+            
+            // Reload to update comparison bar
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        } else {
+            alert('❌ ' + data.message);
+            button.disabled = false;
+            button.innerHTML = '⚖️ Dodaj do porównania';
+            button.style.background = 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)';
+        }
+    })
+    .catch(err => {
+        console.error('Comparison error:', err);
+        alert('❌ Błąd: ' + err.message);
+        button.disabled = false;
+        button.innerHTML = '⚖️ Dodaj do porównania';
+    });
+}
+</script>
+
 <style>
 /* Wishlist Button Styles */
 .btn-wishlist {
@@ -310,6 +375,16 @@ include '../includes/review-list.php';
 
 .btn-wishlist i {
     font-size: 18px;
+}
+
+/* Comparison Button Styles */
+.btn-compare-detail:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 77, 46, 0.4);
+}
+
+.btn-compare-detail:active {
+    transform: translateY(0);
 }
 </style>
 </body>

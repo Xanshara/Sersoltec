@@ -17,6 +17,7 @@ $current_lang = getCurrentLanguage();
         <nav id="mainNav">
             <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? '../index.php' : 'index.php'; ?>"><?php echo t('nav_home'); ?></a>
             <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? 'products.php' : 'pages/products.php'; ?>"><?php echo t('nav_products'); ?></a>
+			<a href="/sersoltec/compare.php" class="comparison-link">⚖️ Porównaj    <span class="comparison-badge" style="display: none;">0</span></a>
             <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? 'calculator.php' : 'pages/calculator.php'; ?>"><?php echo t('nav_calculator'); ?></a>
             <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? 'about.php' : 'pages/about.php'; ?>"><?php echo t('nav_about'); ?></a>
             

@@ -69,7 +69,7 @@ if (!function_exists('getBasePath')) {
                 <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? 'products.php?category=okna-pvc' : 'pages/products.php?category=okna-pvc'; ?>"><?php echo t('cat_pvc_windows'); ?></a>
                 <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? 'products.php?category=okna-drewniane' : 'pages/products.php?category=okna-drewniane'; ?>"><?php echo t('cat_wooden_windows'); ?></a>
                 <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? 'products.php?category=panele-grzewcze' : 'pages/products.php?category=panele-grzewcze'; ?>"><?php echo t('cat_heating_panels'); ?></a>
-                <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? 'products.php?category=folie-grzewcze' : 'pages/products.products.php?category=folie-grzewcze'; ?>"><?php echo t('cat_heating_films'); ?></a>
+                <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? 'products.php?category=folie-grzewcze' : 'pages/products.php?category=folie-grzewcze'; ?>"><?php echo t('cat_heating_films'); ?></a>
                 <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? 'products.php?category=profile-pvc' : 'pages/products.php?category=profile-pvc'; ?>"><?php echo t('cat_pvc_profiles'); ?></a>
                 <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? 'products.php?category=drzwi-wewnetrzne' : 'pages/products.php?category=drzwi-wewnetrzne'; ?>"><?php echo t('cat_interior_doors'); ?></a>
                 <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? 'products.php?category=drzwi-zewnetrzne' : 'pages/products.php?category=drzwi-zewnetrzne'; ?>"><?php echo t('cat_exterior_doors'); ?></a>
@@ -115,6 +115,7 @@ if (!function_exists('getBasePath')) {
                 <a href="https://www.linkedin.com/company/sersoltec" target="_blank" rel="noopener noreferrer" title="LinkedIn">in</a>
                 <a href="https://wa.me/34666666666" target="_blank" rel="noopener noreferrer" title="WhatsApp">💬</a>
             </div>
+        </div>
     </div>
     
     <div style="border-top: 2px solid rgba(255, 255, 255, 0.35); padding: 2rem 0; margin-top: 2rem; text-align: center;">
@@ -125,5 +126,9 @@ if (!function_exists('getBasePath')) {
 
 <!-- Wishlist JavaScript -->
 <script src="<?php echo (strpos($_SERVER['PHP_SELF'], '/pages/') !== false) ? '../assets/js/wishlist.js' : 'assets/js/wishlist.js'; ?>"></script>
+
+<!-- Comparison System JS -->
+<script src="/sersoltec/assets/js/comparison.js"></script>
+
 </body>
 </html>

@@ -109,6 +109,7 @@ try {
 // Helper functions
 function formatPrice($price) {
     if (!$price) return 'N/A';
+    // Użycie formatowania z config.php, jeśli jest dostępne, w przeciwnym razie domyślne.
     return number_format($price, 2, ',', ' ') . ' €';
 }
 
@@ -141,7 +142,6 @@ $pageTitle = wt('wishlist_page_title', $lang) . ' (' . count($wishlistItems) . '
     <title><?php echo $pageTitle; ?> - <?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="<?php echo $basePath; ?>assets/css/styles.css">
     <link rel="stylesheet" href="<?php echo $basePath; ?>assets/css/responsive.css">
-    <link rel="stylesheet" href="<?php echo $basePath; ?>assets/css/wishlist.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
@@ -158,32 +158,30 @@ if (file_exists($basePath . 'includes/header.php')) {
 <div class="wishlist-page">
     <div class="container">
         
-        <!-- Page Header -->
-        <div class="page-header" style="text-align: center; margin-bottom: 40px;">
-            <h1 style="font-size: 32px; color: #333; margin-bottom: 10px;">
-                <i class="fa fa-heart" style="color: #e91e63;"></i> 
+        <div class="page-header">
+            <h1>
+                <i class="fa fa-heart"></i> 
                 <?php echo wt('wishlist_page_title', $lang); ?>
-                <span class="wishlist-count" style="font-size: 24px; color: #666;">(<?php echo count($wishlistItems); ?>)</span>
+                <span class="wishlist-count">(<?php echo count($wishlistItems); ?>)</span>
             </h1>
-            <p class="page-subtitle" style="color: #666; font-size: 16px;">
+            <p class="page-subtitle">
                 <?php echo wt('wishlist_page_subtitle', $lang); ?>
             </p>
         </div>
         
         <?php if (empty($wishlistItems)): ?>
             
-            <!-- Empty State -->
-            <div class="empty-wishlist" style="text-align: center; padding: 80px 20px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
-                <div class="empty-icon" style="font-size: 80px; color: #ddd; margin-bottom: 20px;">
+            <div class="empty-wishlist">
+                <div class="empty-icon">
                     <i class="fa fa-heart-o"></i>
                 </div>
-                <h2 style="font-size: 24px; color: #333; margin-bottom: 10px;">
+                <h2>
                     <?php echo wt('wishlist_empty_title', $lang); ?>
                 </h2>
-                <p style="color: #666; margin-bottom: 30px;">
+                <p>
                     <?php echo wt('wishlist_empty_message', $lang); ?>
                 </p>
-                <a href="<?php echo $basePath; ?>pages/products.php" class="btn btn-primary btn-lg" style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 4px;">
+                <a href="<?php echo $basePath; ?>pages/products.php" class="btn btn-primary btn-lg empty-cta-btn">
                     <i class="fa fa-shopping-bag"></i> 
                     <?php echo wt('wishlist_empty_cta', $lang); ?>
                 </a>
@@ -191,74 +189,66 @@ if (file_exists($basePath . 'includes/header.php')) {
             
         <?php else: ?>
             
-            <!-- Wishlist Grid -->
-            <div class="wishlist-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; margin-bottom: 40px;">
+            <div class="wishlist-grid">
                 
                 <?php foreach ($wishlistItems as $item): ?>
                     
-                    <div class="wishlist-item" data-product-id="<?php echo $item['product_id']; ?>" style="background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.3s;">
+                    <div class="wishlist-item" data-product-id="<?php echo $item['product_id']; ?>">
                         
-                        <!-- Product Image -->
-                        <div class="wishlist-item-image" style="position: relative; padding-top: 100%; overflow: hidden; background: #f5f5f5;">
+                        <div class="wishlist-item-image">
                             <a href="<?php echo $basePath; ?>pages/product-detail.php?id=<?php echo $item['product_id']; ?>">
                                 <?php if (!empty($item['image_url'])): ?>
                                     <img 
                                         src="<?php echo $basePath; ?>assets/images/products/<?php echo htmlspecialchars($item['image_url']); ?>" 
                                         alt="<?php echo htmlspecialchars($item['name']); ?>"
                                         loading="lazy"
-                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"
                                     >
                                 <?php else: ?>
-                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 48px;">
+                                    <div class="no-image-placeholder">
                                         📦
                                     </div>
                                 <?php endif; ?>
                             </a>
                             
-                            <!-- Stock badge -->
                             <?php if (isset($item['stock_quantity'])): ?>
                                 <?php if ($item['stock_quantity'] <= 0): ?>
-                                    <span style="position: absolute; top: 10px; right: 10px; background: #f44336; color: white; font-size: 12px; font-weight: bold; padding: 5px 10px; border-radius: 4px;">
+                                    <span class="stock-badge out-of-stock">
                                         <?php echo wt('wishlist_out_of_stock', $lang); ?>
                                     </span>
-                                <?php elseif ($item['stock_quantity'] < 5): ?>
-                                    <span style="position: absolute; top: 10px; right: 10px; background: #ff9800; color: white; font-size: 12px; font-weight: bold; padding: 5px 10px; border-radius: 4px;">
+                                <? elseif ($item['stock_quantity'] < 5): ?>
+                                    <span class="stock-badge low-stock">
                                         <?php echo wt('wishlist_low_stock', $lang); ?>
                                     </span>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
                         
-                        <!-- Product Info -->
-                        <div class="wishlist-item-info" style="padding: 20px;">
+                        <div class="wishlist-item-info">
                             
-                            <h3 class="wishlist-item-title" style="font-size: 18px; margin-bottom: 8px;">
-                                <a href="<?php echo $basePath; ?>pages/product-detail.php?id=<?php echo $item['product_id']; ?>" style="color: #333; text-decoration: none;">
+                            <h3 class="wishlist-item-title">
+                                <a href="<?php echo $basePath; ?>pages/product-detail.php?id=<?php echo $item['product_id']; ?>">
                                     <?php echo htmlspecialchars($item['name']); ?>
                                 </a>
                             </h3>
                             
-                            <p class="wishlist-item-sku" style="color: #999; font-size: 13px; margin-bottom: 10px;">
+                            <p class="wishlist-item-sku">
                                 SKU: <?php echo htmlspecialchars($item['sku']); ?>
                             </p>
                             
-                            <!-- Price -->
-                            <div class="wishlist-item-price" style="margin-bottom: 10px;">
-                                <span class="price" style="font-size: 24px; font-weight: bold; color: #e91e63;">
+                            <div class="wishlist-item-price">
+                                <span class="price">
                                     <?php echo formatPrice($item['price']); ?>
                                 </span>
                             </div>
                             
-                            <!-- Added date -->
-                            <p class="wishlist-item-date" style="color: #999; font-size: 13px;">
+                            <p class="wishlist-item-date">
                                 <i class="fa fa-clock-o"></i>
                                 <?php echo wt('wishlist_added', $lang); ?>: <?php echo timeAgo($item['added_at']); ?>
                             </p>
                             
                         </div>
                         
-                        <!-- Actions -->
-                        <div class="wishlist-item-actions" style="padding: 15px 20px; border-top: 1px solid #eee; display: flex; gap: 10px;">
+                        <div class="wishlist-item-actions">
                             
                             <?php 
                             $inStock = !isset($item['stock_quantity']) || $item['stock_quantity'] > 0;
@@ -266,30 +256,29 @@ if (file_exists($basePath . 'includes/header.php')) {
                             ?>
                             
                             <?php if ($inStock && $isActive): ?>
-                                <form method="POST" action="<?php echo $basePath; ?>cart.php" style="flex: 1;">
+                                <form method="POST" action="<?php echo $basePath; ?>cart.php" class="add-to-cart-form">
                                     <input type="hidden" name="action" value="add">
                                     <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                                     <input type="hidden" name="quantity" value="1">
-                                    <button type="submit" style="width: 100%; padding: 10px 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">
+                                    <button type="submit" class="add-to-cart-btn">
                                         <i class="fa fa-shopping-cart"></i> 
                                         <?php echo wt('wishlist_add_to_cart', $lang); ?>
                                     </button>
                                 </form>
                             <?php else: ?>
-                                <button style="flex: 1; padding: 10px 15px; background: #ccc; color: #666; border: none; border-radius: 4px; font-size: 14px;" disabled>
+                                <button class="unavailable-btn" disabled>
                                     <i class="fa fa-ban"></i> 
                                     <?php echo wt('wishlist_unavailable', $lang); ?>
                                 </button>
                             <?php endif; ?>
                             
                             <button 
-                                class="btn btn-outline remove-from-wishlist" 
+                                class="btn btn-outline remove-from-wishlist remove-btn" 
                                 data-product-id="<?php echo $item['product_id']; ?>"
                                 title="<?php echo wt('wishlist_remove', $lang); ?>"
-                                style="padding: 10px 15px; background: white; color: #f44336; border: 1px solid #f44336; border-radius: 4px; cursor: pointer; font-size: 14px;"
                             >
                                 <i class="fa fa-trash"></i> 
-                                <?php echo wt('wishlist_remove', $lang); ?>
+                                <span class="btn-text-only"><?php echo wt('wishlist_remove', $lang); ?></span>
                             </button>
                             
                         </div>
@@ -300,9 +289,8 @@ if (file_exists($basePath . 'includes/header.php')) {
                 
             </div>
             
-            <!-- Actions Footer -->
-            <div class="wishlist-footer" style="text-align: center; padding-top: 20px;">
-                <a href="<?php echo $basePath; ?>pages/products.php" class="btn btn-outline-primary" style="display: inline-block; padding: 12px 30px; background: white; color: #667eea; border: 2px solid #667eea; text-decoration: none; border-radius: 4px;">
+            <div class="wishlist-footer">
+                <a href="<?php echo $basePath; ?>pages/products.php" class="btn btn-secondary continue-shopping-btn">
                     <i class="fa fa-arrow-left"></i> 
                     <?php echo wt('wishlist_continue_shopping', $lang); ?>
                 </a>
@@ -314,23 +302,412 @@ if (file_exists($basePath . 'includes/header.php')) {
 </div>
 
 <style>
+/* ===================================
+   WISHLIST PAGE STYLES (ZINTEGROWANE Z styles.css)
+   =================================== */
+
+/* Definicje zmiennych ze styles.css dla kontekstu (zmienne są już globalne w head, ale ułatwia to czytelność) */
+/*
+:root {
+    --color-primary: #1a4d2e;
+    --color-primary-dark: #0f3d25;
+    --color-primary-light: #2d7a4a;
+    --color-accent: #8b9467;
+    --color-white: #ffffff;
+    --color-light-gray: #f8f8f8;
+    --color-text: #2c2c2c;
+    --radius-md: 8px;
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+*/
+
 .wishlist-page {
     min-height: 60vh;
     padding: 40px 0;
-    background: #f8f9fa;
+    /* Używamy koloru tła ze styles.css */
+    background: var(--color-light-gray); 
+}
+
+.wishlist-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Page Header */
+.wishlist-page .page-header {
+    text-align: center; 
+    margin-bottom: 40px;
+}
+
+.wishlist-page .page-header h1 {
+    font-size: 32px; 
+    /* Używamy koloru nagłówka ze styles.css */
+    color: var(--color-primary-dark); 
+    margin-bottom: 10px;
+}
+
+.wishlist-page .page-header h1 i.fa-heart {
+    /* Akcentujemy ikonę kolorem akcentującym */
+    color: var(--color-accent);
+}
+
+.wishlist-page .page-header .wishlist-count {
+    font-size: 24px; 
+    color: #666;
+}
+
+.wishlist-page .page-subtitle {
+    color: var(--color-text); 
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+/* Empty State */
+.empty-wishlist {
+    text-align: center;
+    padding: 80px 20px;
+    /* Używamy jasnego tła dla kontrastu na ciemnym tle strony */
+    background: var(--color-white); 
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.empty-wishlist .empty-icon i {
+    font-size: 64px;
+    /* Widoczny, neutralny kolor ikony */
+    color: var(--color-gray); 
+    margin-bottom: 20px;
+}
+
+.empty-wishlist h2 {
+    font-size: 24px;
+    color: var(--color-primary-dark);
+    margin-bottom: 10px;
+}
+
+.empty-wishlist p {
+    color: var(--color-text);
+    margin-bottom: 30px;
+}
+
+.empty-cta-btn {
+    /* Dopasowanie do stylu .btn-lg w styles.css */
+    /* Poniższe inline style zostały usunięte i zastąpione klasami: */
+    /* display: inline-block; padding: 15px 30px; background: linear-gradient(...); color: white; text-decoration: none; border-radius: 4px; */
+}
+
+
+/* Wishlist Grid */
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+/* Wishlist Item */
+.wishlist-item {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 1px solid var(--color-gray-light);
 }
 
 .wishlist-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+}
+
+/* Item Image */
+.wishlist-item-image {
+    position: relative;
+    padding-top: 100%; /* Ratio 1:1 */
+    overflow: hidden;
+    background: var(--color-light-gray);
 }
 
 .wishlist-item-image a img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transition: transform 0.3s;
 }
 
 .wishlist-item:hover .wishlist-item-image a img {
     transform: scale(1.05);
+}
+
+.no-image-placeholder {
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    font-size: 48px;
+}
+
+/* Stock Badge */
+.stock-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: var(--color-white);
+    font-size: 12px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    z-index: 5;
+}
+
+.stock-badge.out-of-stock {
+    background: #d32f2f; /* Standard Red */
+}
+
+.stock-badge.low-stock {
+    background: #fbc02d; /* Standard Yellow */
+}
+
+/* Item Info */
+.wishlist-item-info {
+    padding: 20px;
+}
+
+.wishlist-item-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--color-text);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.wishlist-item-title a {
+    color: var(--color-text); 
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.wishlist-item-title a:hover {
+    color: var(--color-primary);
+}
+
+.wishlist-item-sku {
+    color: #999;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.wishlist-item-price .price {
+    font-size: 24px;
+    font-weight: bold;
+    /* Używamy koloru akcentu */
+    color: var(--color-accent); 
+}
+
+.wishlist-item-date {
+    color: #999;
+    font-size: 13px;
+}
+
+/* Actions */
+.wishlist-item-actions {
+    padding: 15px 20px;
+    border-top: 1px solid var(--color-gray-light);
+    display: flex;
+    gap: 10px;
+}
+
+.add-to-cart-form {
+    flex: 1;
+}
+
+.add-to-cart-btn {
+    width: 100%; 
+    padding: 10px 15px; 
+    /* Używamy .btn-primary */
+    background: var(--color-primary); 
+    color: var(--color-white); 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 14px;
+    transition: all var(--transition-normal);
+}
+
+.add-to-cart-btn:hover {
+    background: var(--color-primary-light); 
+    transform: translateY(-1px);
+}
+
+.unavailable-btn {
+    flex: 1; 
+    padding: 10px 15px; 
+    background: #ccc; 
+    color: #666; 
+    border: none; 
+    border-radius: 4px; 
+    font-size: 14px;
+    cursor: not-allowed;
+}
+
+.remove-btn {
+    padding: 10px 15px; 
+    background: var(--color-white); 
+    color: #d32f2f; /* Red */
+    border: 1px solid #d32f2f; /* Red */
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 14px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.remove-btn:hover {
+    background: #d32f2f;
+    color: var(--color-white);
+}
+
+/* Footer Actions */
+.wishlist-footer {
+    text-align: center; 
+    padding-top: 20px;
+}
+
+.continue-shopping-btn {
+    /* Używamy .btn-secondary z styles.css */
+    /* Zapewniamy większą widoczność dla responsywności */
+    min-width: 250px;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+@media (max-width: 768px) {
+    .wishlist-grid {
+        /* Przechodzimy na dwie kolumny na tablecie */
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    
+    .wishlist-page .container {
+        padding: 0 10px;
+    }
+    
+    .wishlist-page {
+        padding: 20px 0;
+    }
+    
+    /* Na mniejszych ekranach usuwamy tekst z przycisku usuwania, zostawiamy tylko ikonę */
+    .remove-btn .btn-text-only {
+        display: none;
+    }
+}
+
+/* ===================================
+   DARK MODE SUPPORT (ZINTEGROWANE Z styles.css)
+   =================================== */
+
+@media (prefers-color-scheme: dark) {
+    
+    /* Globalne tło strony (zgodnie z styles.css) */
+    .wishlist-page {
+        background: var(--color-primary-dark);
+    }
+    
+    /* Nagłówek */
+    .wishlist-page .page-header h1 {
+        color: var(--color-white);
+    }
+
+    .wishlist-page .page-header .wishlist-count,
+    .wishlist-page .page-subtitle {
+        color: rgba(255, 255, 255, 0.85);
+    }
+    
+    /* Empty State - musi się wyróżniać na ciemnym tle strony */
+    .empty-wishlist {
+        background: var(--color-white); /* Utrzymujemy jasne tło dla kontrastu */
+        box-shadow: 0 2px 10px rgba(255,255,255,0.08);
+    }
+    
+    .empty-wishlist h2 {
+        color: var(--color-primary-dark); /* Ciemny tekst na jasnym tle */
+    }
+    
+    .empty-wishlist p {
+        color: var(--color-text); /* Ciemny tekst na jasnym tle */
+    }
+    
+    .empty-wishlist .empty-icon i {
+        color: var(--color-gray);
+    }
+
+    /* Elementy Listy Życzeń */
+    .wishlist-item {
+        background: #2d2d2d; /* Ciemniejszy kolor dla kart */
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        border: 1px solid #3a3a3a;
+    }
+    
+    .wishlist-item:hover {
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        border-color: var(--color-accent);
+    }
+    
+    .wishlist-item-title a {
+        color: var(--color-white);
+    }
+
+    .wishlist-item-sku,
+    .wishlist-item-date {
+        color: #bbb;
+    }
+    
+    .wishlist-item-price .price {
+        color: var(--color-accent-light);
+    }
+
+    .wishlist-item-actions {
+        border-top: 1px solid #3a3a3a;
+    }
+
+    .unavailable-btn {
+        background: #444;
+        color: #999;
+    }
+
+    .remove-btn {
+        background: #2d2d2d;
+        color: #d32f2f; 
+        border: 1px solid #d32f2f; 
+    }
+
+    .remove-btn:hover {
+        background: #d32f2f;
+        color: var(--color-white);
+    }
+    
+    .continue-shopping-btn {
+        /* Nadpisanie .btn-secondary dla Dark Mode */
+        background: var(--color-primary-dark);
+        color: var(--color-accent);
+        border: 2px solid var(--color-accent);
+    }
+
+    .continue-shopping-btn:hover {
+        background: var(--color-accent);
+        color: var(--color-primary-dark);
+    }
 }
 </style>
 
@@ -343,7 +720,6 @@ if (file_exists($basePath . 'includes/footer.php')) {
 }
 ?>
 
-<!-- Wishlist JavaScript -->
 <script src="<?php echo $basePath; ?>assets/js/wishlist.js"></script>
 
 </body>

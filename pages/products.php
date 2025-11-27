@@ -64,7 +64,7 @@ if ($selected_category) {
     <title><?php echo t('nav_products'); ?> - <?php echo SITE_NAME; ?></title>
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/responsive.css">
-    <link rel="stylesheet" href="../assets/css/wishlist.css">
+   <!-- <link rel="stylesheet" href="../assets/css/wishlist.css"> -->
     <link rel="stylesheet" href="../assets/css/chatbot-widget.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -192,6 +192,28 @@ if ($selected_category) {
                                 <?php endif; ?>
                             </div>
                         </div>
+                        <button 
+                            class="btn-compare-list" 
+                            onclick="addToComparisonList(<?php echo $product['id']; ?>, this)"
+                            style="
+                                display: inline-flex;
+                                align-items: center;
+                                justify-content: center;
+                                gap: 6px;
+                                background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+                                color: var(--color-white);
+                                border: none;
+                                padding: 10px 16px;
+                                border-radius: var(--radius-md);
+                                font-size: 0.9rem;
+                                font-weight: 600;
+                                cursor: pointer;
+                                transition: all var(--transition-normal);
+                                width: 100%;
+                                margin-top: 8px;
+                            ">
+                            ⚖️ Porównaj
+                        </button>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -281,3 +303,42 @@ if ($selected_category) {
 <script src="../assets/js/chatbot-widget.js"></script>
 </body>
 </html>
+<script>
+// Comparison function for products list page
+function addToComparisonList(productId, button) {
+    if (button.disabled) return;
+    
+    button.disabled = true;
+    const originalText = button.innerHTML;
+    button.innerHTML = '⏳...';
+    
+    fetch('/sersoltec/api/comparison-api.php?action=add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: productId })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            button.innerHTML = '✓';
+            button.style.background = '#4CAF50';
+            
+            // Reload to update comparison bar
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+        } else {
+            alert('❌ ' + data.message);
+            button.disabled = false;
+            button.innerHTML = originalText;
+            button.style.background = 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)';
+        }
+    })
+    .catch(err => {
+        console.error('Comparison error:', err);
+        alert('❌ Błąd połączenia');
+        button.disabled = false;
+        button.innerHTML = originalText;
+    });
+}
+</script>
