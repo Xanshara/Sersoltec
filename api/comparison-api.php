@@ -1,340 +1,183 @@
 <?php
 /**
- * SERSOLTEC v2.5 - Product Comparison API
+ * SERSOLTEC v2.5 - Comparison API (ABSOLUTE FINAL)
  * 
- * REST API for product comparison system
- * Supports both logged-in users and guest sessions
- * Max 4 products in comparison
+ * NAPRAWIONE:
+ * - Ścieżki ABSOLUTE /var/www/lastchance/sersoltec/
+ * - Kategorie z JOIN
+ * - Wszystko działa
  * 
- * Endpoints:
- * - GET  ?action=list          - Get comparison products
- * - GET  ?action=count         - Get count
- * - POST ?action=add           - Add product (product_id)
- * - POST ?action=remove        - Remove product (product_id)
- * - POST ?action=clear         - Clear all
- * - POST ?action=check         - Check if product in comparison (product_id)
- * 
- * @version 2.5.0
- * @date 2025-11-27
+ * @version 2.5.10
  */
 
-// Error handling
-ini_set('display_errors', 0);
-error_reporting(E_ALL);
-
-// Headers
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
 
-// Handle OPTIONS
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
-
-// Start session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Set timezone
-date_default_timezone_set('Europe/Warsaw');
+// ABSOLUTE PATH
+require_once '/var/www/lastchance/sersoltec/config.php';
 
-// ============================================
-// CONFIG
-// ============================================
-
-// Try to load config.php
-$configPaths = [
-    __DIR__ . '/../config.php',
-    __DIR__ . '/../../config.php',
-    dirname(dirname(__FILE__)) . '/config.php'
-];
-
-$configLoaded = false;
-foreach ($configPaths as $configPath) {
-    if (file_exists($configPath)) {
-        require_once $configPath;
-        $configLoaded = true;
-        break;
-    }
+$current_lang = $_GET['lang'] ?? $_SESSION['language'] ?? 'pl';
+if (!in_array($current_lang, ['pl', 'en', 'es'])) {
+    $current_lang = 'pl';
 }
 
-// Fallback config if not loaded
-if (!$configLoaded) {
-    define('DB_HOST', 'localhost');
-    define('DB_NAME', 'sersoltec_db');
-    define('DB_USER', 'sersoltec');
-    define('DB_PASS', 'm1vg!M2Zj*3BY.QX');
-}
-
-// Constants
-define('MAX_COMPARISON_ITEMS', 4);
-
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
-/**
- * Get database connection
- */
 function getDB() {
-    static $pdo = null;
-    
-    if ($pdo === null) {
-        try {
-            $host = defined('DB_HOST') ? DB_HOST : 'localhost';
-            $dbname = defined('DB_NAME') ? DB_NAME : 'sersoltec_db';
-            $user = defined('DB_USER') ? DB_USER : 'sersoltec';
-            $pass = defined('DB_PASS') ? DB_PASS : '';
-            
-            $pdo = new PDO(
-                "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
-                $user,
-                $pass,
-                [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES => false
-                ]
-            );
-            
-            // Set timezone
-            $pdo->exec("SET time_zone = '+01:00'");
-            
-        } catch (PDOException $e) {
-            sendError('Database connection failed', 500);
-        }
-    }
-    
+    global $pdo;
     return $pdo;
 }
 
-/**
- * Check if user is logged in
- */
-function isLoggedIn() {
-    return isset($_SESSION['user_id']) || isset($_SESSION['id']);
-}
-
-/**
- * Get user ID
- */
 function getUserId() {
-    if (isset($_SESSION['user_id'])) {
-        return (int)$_SESSION['user_id'];
-    }
-    if (isset($_SESSION['id'])) {
-        return (int)$_SESSION['id'];
-    }
-    return null;
+    return $_SESSION['user_id'] ?? null;
 }
 
-/**
- * Get or create session ID
- */
 function getSessionId() {
     if (!isset($_SESSION['comparison_session_id'])) {
-        $_SESSION['comparison_session_id'] = bin2hex(random_bytes(16));
+        $_SESSION['comparison_session_id'] = session_id() ?: bin2hex(random_bytes(16));
     }
     return $_SESSION['comparison_session_id'];
 }
 
-/**
- * Send JSON response
- */
-function sendResponse($success, $data = [], $message = '', $httpCode = 200) {
-    http_response_code($httpCode);
+function sendResponse($success, $data = [], $message = '') {
     echo json_encode([
         'success' => $success,
         'message' => $message,
         'data' => $data
-    ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-/**
- * Send error response
- */
-function sendError($message, $httpCode = 400) {
-    sendResponse(false, [], $message, $httpCode);
+function sendError($message) {
+    sendResponse(false, [], $message);
 }
 
-/**
- * Detect product columns (compatible with different DB schemas)
- */
-function detectProductColumns($pdo) {
-    static $columns = null;
-    
-    if ($columns === null) {
-        $stmt = $pdo->query("SHOW COLUMNS FROM products");
-        $columnNames = array_column($stmt->fetchAll(), 'Field');
-        
-        // Detect language columns
-        $lang = $_GET['lang'] ?? 'pl';
-        
-        $columns = [
-            'name' => in_array('name_' . $lang, $columnNames) ? 'name_' . $lang : 
-                     (in_array('name', $columnNames) ? 'name' : 'name_pl'),
-            'description' => in_array('description_' . $lang, $columnNames) ? 'description_' . $lang :
-                            (in_array('description', $columnNames) ? 'description' : 'description_pl'),
-            'price' => in_array('price_base', $columnNames) ? 'price_base' : 
-                      (in_array('price', $columnNames) ? 'price' : 'price_base'),
-            'image' => in_array('image', $columnNames) ? 'image' : 
-                      (in_array('image_url', $columnNames) ? 'image_url' : 'image'),
-            'stock' => in_array('stock_quantity', $columnNames) ? 'stock_quantity' : 
-                      (in_array('stock', $columnNames) ? 'stock' : null),
-            'active' => in_array('is_active', $columnNames) ? 'is_active' : 
-                       (in_array('active', $columnNames) ? 'active' : 'active'),
-            'category' => in_array('category_name', $columnNames) ? 'category_name' : 
-                         (in_array('category', $columnNames) ? 'category' : null)
-        ];
-    }
-    
-    return $columns;
-}
-
-/**
- * Get comparison items from session or database
- */
 function getComparisonItems() {
     $pdo = getDB();
     $userId = getUserId();
     $sessionId = getSessionId();
     
-    // Try database first (for logged-in users or persistent sessions)
     if ($userId) {
-        $stmt = $pdo->prepare("
-            SELECT product_ids 
-            FROM product_comparisons 
-            WHERE user_id = ? 
-            ORDER BY created_at DESC 
-            LIMIT 1
-        ");
+        $stmt = $pdo->prepare("SELECT product_ids FROM product_comparisons WHERE user_id = ? ORDER BY created_at DESC LIMIT 1");
         $stmt->execute([$userId]);
         $row = $stmt->fetch();
         
         if ($row && $row['product_ids']) {
             $ids = json_decode($row['product_ids'], true);
-            return is_array($ids) ? $ids : [];
+            return is_array($ids) ? array_map('intval', $ids) : [];
         }
-    } else {
-        // Guest - check by session_id
-        $stmt = $pdo->prepare("
-            SELECT product_ids 
-            FROM product_comparisons 
-            WHERE session_id = ? 
-            ORDER BY created_at DESC 
-            LIMIT 1
-        ");
+    }
+    
+    if ($sessionId) {
+        $stmt = $pdo->prepare("SELECT product_ids FROM product_comparisons WHERE session_id = ? ORDER BY created_at DESC LIMIT 1");
         $stmt->execute([$sessionId]);
         $row = $stmt->fetch();
         
         if ($row && $row['product_ids']) {
             $ids = json_decode($row['product_ids'], true);
-            return is_array($ids) ? $ids : [];
+            return is_array($ids) ? array_map('intval', $ids) : [];
         }
     }
     
-    // Fallback to session storage
-    return $_SESSION['comparison_items'] ?? [];
+    return [];
 }
 
-/**
- * Save comparison items
- */
 function saveComparisonItems($items) {
     $pdo = getDB();
     $userId = getUserId();
     $sessionId = getSessionId();
     
-    // Save to session
-    $_SESSION['comparison_items'] = $items;
-    
-    // Save to database
-    $productIdsJson = json_encode(array_values($items));
+    $productIds = json_encode(array_values($items));
     
     if ($userId) {
-        // Logged-in user
-        $stmt = $pdo->prepare("
-            INSERT INTO product_comparisons (user_id, product_ids, session_id, created_at)
-            VALUES (?, ?, ?, NOW())
-            ON DUPLICATE KEY UPDATE 
-                product_ids = VALUES(product_ids),
-                created_at = NOW()
-        ");
-        $stmt->execute([$userId, $productIdsJson, $sessionId]);
-    } else {
-        // Guest
-        $stmt = $pdo->prepare("
-            INSERT INTO product_comparisons (user_id, product_ids, session_id, created_at)
-            VALUES (NULL, ?, ?, NOW())
-            ON DUPLICATE KEY UPDATE 
-                product_ids = VALUES(product_ids),
-                created_at = NOW()
-        ");
-        $stmt->execute([$productIdsJson, $sessionId]);
+        $stmt = $pdo->prepare("SELECT id FROM product_comparisons WHERE user_id = ?");
+        $stmt->execute([$userId]);
+        $existing = $stmt->fetch();
+        
+        if ($existing) {
+            $stmt = $pdo->prepare("UPDATE product_comparisons SET product_ids = ?, updated_at = NOW() WHERE user_id = ?");
+            $stmt->execute([$productIds, $userId]);
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO product_comparisons (user_id, product_ids, session_id, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())");
+            $stmt->execute([$userId, $productIds, $sessionId]);
+        }
+    } elseif ($sessionId) {
+        $stmt = $pdo->prepare("SELECT id FROM product_comparisons WHERE session_id = ?");
+        $stmt->execute([$sessionId]);
+        $existing = $stmt->fetch();
+        
+        if ($existing) {
+            $stmt = $pdo->prepare("UPDATE product_comparisons SET product_ids = ?, updated_at = NOW() WHERE session_id = ?");
+            $stmt->execute([$productIds, $sessionId]);
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO product_comparisons (user_id, product_ids, session_id, created_at, updated_at) VALUES (NULL, ?, ?, NOW(), NOW())");
+            $stmt->execute([$productIds, $sessionId]);
+        }
     }
 }
 
-// ============================================
-// MAIN LOGIC
-// ============================================
+$action = $_GET['action'] ?? ($_POST['action'] ?? 'count');
 
 try {
     $pdo = getDB();
-    $action = $_GET['action'] ?? $_POST['action'] ?? '';
     
     switch ($action) {
-        
-        // ==========================================
-        // GET: Count comparison items
-        // ==========================================
         case 'count':
             $items = getComparisonItems();
             sendResponse(true, ['count' => count($items)]);
             break;
         
-        // ==========================================
-        // GET: List comparison products
-        // ==========================================
         case 'list':
+            global $current_lang;
             $items = getComparisonItems();
             
             if (empty($items)) {
                 sendResponse(true, ['products' => []]);
             }
             
-            // Get product details
-            $columns = detectProductColumns($pdo);
             $placeholders = implode(',', array_fill(0, count($items), '?'));
+            $nameCol = "name_{$current_lang}";
+            $descCol = "description_{$current_lang}";
+            $categoryCol = "c.name_{$current_lang}";
             
             $query = "
                 SELECT 
-                    id,
-                    sku,
-                    {$columns['name']} as name,
-                    {$columns['description']} as description,
-                    {$columns['price']} as price,
-                    {$columns['image']} as image_url,
-                    " . ($columns['stock'] ? "{$columns['stock']} as stock_quantity," : "0 as stock_quantity,") . "
-                    " . ($columns['category'] ? "{$columns['category']} as category" : "'Uncategorized' as category") . "
-                FROM products
-                WHERE id IN ($placeholders)
-                  AND {$columns['active']} = 1
+                    p.id,
+                    p.sku,
+                    p.$nameCol as name,
+                    p.$descCol as description,
+                    p.price_base as price,
+                    p.image as image_url,
+                    p.stock_quantity,
+                    $categoryCol as category
+                FROM products p
+                LEFT JOIN categories c ON p.category_id = c.id
+                WHERE p.id IN ($placeholders) AND p.active = 1
             ";
             
             $stmt = $pdo->prepare($query);
             $stmt->execute($items);
             $products = $stmt->fetchAll();
             
-            // Maintain order from $items
             $orderedProducts = [];
             foreach ($items as $id) {
                 foreach ($products as $product) {
                     if ($product['id'] == $id) {
+                        if (!empty($product['image_url'])) {
+                            if (!preg_match('/^(https?:\/\/|\/)/i', $product['image_url'])) {
+                                $product['image_url'] = '/sersoltec/assets/images/products/' . $product['image_url'];
+                            }
+                        } else {
+                            $product['image_url'] = '/sersoltec/assets/images/no-image.png';
+                        }
+                        
+                        $product['description'] = $product['description'] ?: '';
+                        $product['name'] = $product['name'] ?: 'Produkt #' . $product['id'];
+                        $product['category'] = $product['category'] ?: 'Bez kategorii';
+                        $product['price'] = $product['price'] ?: 0;
+                        $product['stock_quantity'] = $product['stock_quantity'] ?: 0;
+                        
                         $orderedProducts[] = $product;
                         break;
                     }
@@ -344,86 +187,62 @@ try {
             sendResponse(true, ['products' => $orderedProducts]);
             break;
         
-        // ==========================================
-        // POST: Add product to comparison
-        // ==========================================
         case 'add':
             $input = json_decode(file_get_contents('php://input'), true);
             $productId = (int)($input['product_id'] ?? $_POST['product_id'] ?? 0);
             
             if (!$productId) {
-                sendError('Product ID is required');
+                sendError('Brak ID produktu');
             }
             
-            // Check if product exists
-            $columns = detectProductColumns($pdo);
-            $stmt = $pdo->prepare("
-                SELECT id FROM products 
-                WHERE id = ? AND {$columns['active']} = 1
-            ");
+            $stmt = $pdo->prepare("SELECT id FROM products WHERE id = ? AND active = 1");
             $stmt->execute([$productId]);
             if (!$stmt->fetch()) {
-                sendError('Product not found or inactive');
+                sendError('Produkt nie istnieje');
             }
             
-            // Get current items
             $items = getComparisonItems();
             
-            // Check if already in comparison
             if (in_array($productId, $items)) {
-                sendError('Product already in comparison');
+                sendError('Produkt już jest w porównaniu');
             }
             
-            // Check max limit
-            if (count($items) >= MAX_COMPARISON_ITEMS) {
-                sendError('Maximum ' . MAX_COMPARISON_ITEMS . ' products allowed in comparison');
+            if (count($items) >= 4) {
+                sendError('Możesz porównać maksymalnie 4 produkty');
             }
             
-            // Add to comparison
             $items[] = $productId;
             saveComparisonItems($items);
             
-            sendResponse(true, ['count' => count($items)], 'Product added to comparison');
+            sendResponse(true, ['count' => count($items)], 'Dodano do porównania');
             break;
         
-        // ==========================================
-        // POST: Remove product from comparison
-        // ==========================================
         case 'remove':
             $input = json_decode(file_get_contents('php://input'), true);
             $productId = (int)($input['product_id'] ?? $_POST['product_id'] ?? 0);
             
             if (!$productId) {
-                sendError('Product ID is required');
+                sendError('Brak ID produktu');
             }
             
             $items = getComparisonItems();
-            $items = array_filter($items, function($id) use ($productId) {
-                return $id != $productId;
-            });
+            $items = array_values(array_filter($items, fn($id) => $id != $productId));
             
-            saveComparisonItems(array_values($items));
+            saveComparisonItems($items);
             
-            sendResponse(true, ['count' => count($items)], 'Product removed from comparison');
+            sendResponse(true, ['count' => count($items)], 'Usunięto');
             break;
         
-        // ==========================================
-        // POST: Clear all comparison
-        // ==========================================
         case 'clear':
             saveComparisonItems([]);
-            sendResponse(true, ['count' => 0], 'Comparison cleared');
+            sendResponse(true, ['count' => 0], 'Wyczyszczono');
             break;
         
-        // ==========================================
-        // POST: Check if product in comparison
-        // ==========================================
         case 'check':
-            $input = json_decode(file_get_contents('php://input'), true);
-            $productId = (int)($input['product_id'] ?? $_POST['product_id'] ?? 0);
+            $productId = (int)($_GET['product_id'] ?? 0);
             
             if (!$productId) {
-                sendError('Product ID is required');
+                sendError('Brak ID produktu');
             }
             
             $items = getComparisonItems();
@@ -435,13 +254,11 @@ try {
             ]);
             break;
         
-        // ==========================================
-        // Invalid action
-        // ==========================================
         default:
-            sendError('Invalid action. Use: list, count, add, remove, clear, check');
+            sendError('Nieznana akcja');
     }
     
 } catch (Exception $e) {
-    sendError('Server error: ' . $e->getMessage(), 500);
+    error_log("Comparison API Error: " . $e->getMessage());
+    sendError('Server error: ' . $e->getMessage());
 }

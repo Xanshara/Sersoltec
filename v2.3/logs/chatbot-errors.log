@@ -1,0 +1,2 @@
+[23-Nov-2025 18:34:21 UTC] Products query SUCCESS with: SELECT id, name_en as name, price_base as price, description_en as description FROM products WHERE active = 1 LIMIT 20
+[23-Nov-2025 18:34:31 UTC] Products query SUCCESS with: SELECT id, name_es as name, price_base as price, description_es as description FROM products WHERE active = 1 LIMIT 20

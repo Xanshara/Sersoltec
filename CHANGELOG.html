@@ -85,7 +85,6 @@
         .badge-new { background: #e8f5e9; color: #2e7d32; }
         .badge-fix { background: #fff3e0; color: #e65100; }
         .badge-improve { background: #e3f2fd; color: #1565c0; }
-        .badge-i18n { background: #f3e5f5; color: #7b1fa2; }
         
         .fix-detail {
             background: #e8f5e9;
@@ -128,138 +127,9 @@
         
         <div class="content">
 
-            <!-- v2.4 - REVIEWS SYSTEM - LATEST -->
+            <!-- v2.3c - PASSWORD RESET SYSTEM - LATEST -->
             <div class="version latest">
-                <h2>v2.4 - Product Reviews System ⭐ <span class="latest-badge">LATEST</span></h2>
-                <div class="version-meta">
-                    <span>📅 Data: 26.11.2025</span>
-                    <span>📄 Status: PRODUCTION READY</span>
-                    <span>⭐ Full debugging session | 4h work | Multi-language support</span>
-                </div>
-                
-                <div class="fix-detail">
-                    <strong>🎉 MAJOR FEATURE:</strong> Complete product reviews system with ratings, moderation, and multilingual support<br>
-                    <em>Frontend components + Admin panel + API + i18n (PL/EN/ES) + Database structure fully adapted</em>
-                </div>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🆕 New Features</h3>
-                <ul class="changes-list">
-                    <li><span class="badge badge-new">NEW</span> <strong>Star Rating System:</strong> 1-5 stars with interactive UI</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>Review Moderation:</strong> Admin approval before publication</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>Verified Purchase Badge:</strong> Shows if user bought the product</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>Helpful Votes:</strong> Users can mark reviews as helpful</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>Review Statistics:</strong> Average rating + distribution</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>Sort Options:</strong> Newest, oldest, highest/lowest rated, most helpful</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>Pagination:</strong> Load more reviews dynamically</li>
-                </ul>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🗂️ New Files Created</h3>
-                <ul class="changes-list">
-                    <li><span class="badge badge-new">NEW</span> <strong>/api/reviews-api.php</strong> - REST API (23KB, 600+ lines)</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>/includes/review-form.php</strong> - Review submission form</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>/includes/review-list.php</strong> - Reviews display component</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>/assets/js/reviews.js</strong> - Frontend logic (545 lines)</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>/assets/css/reviews.css</strong> - Styling (9.9KB)</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>/admin/reviews.php</strong> - Admin moderation panel</li>
-                </ul>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🔧 Critical Database Fixes</h3>
-                <ul class="changes-list">
-                    <li><span class="badge badge-fix">FIX</span> <strong>Column Mapping:</strong> approved/visible → status ENUM('pending','approved','rejected')</li>
-                    <li><span class="badge badge-fix">FIX</span> <strong>Column Names:</strong> review_text → comment</li>
-                    <li><span class="badge badge-fix">FIX</span> <strong>User Names:</strong> u.name → CONCAT(u.first_name, ' ', u.last_name)</li>
-                    <li><span class="badge badge-fix">FIX</span> <strong>Missing Column:</strong> Added helpful_count INT DEFAULT 0</li>
-                    <li><span class="badge badge-fix">FIX</span> <strong>PHP 7.x Compatibility:</strong> Replaced match() with switch()</li>
-                </ul>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🔐 Authentication Integration</h3>
-                <ul class="changes-list">
-                    <li><span class="badge badge-fix">FIX</span> <strong>Session Variables:</strong> Support for admin_logged_in, admin_role</li>
-                    <li><span class="badge badge-fix">FIX</span> <strong>User Detection:</strong> Flexible login check (user_id/id/logged_in)</li>
-                    <li><span class="badge badge-improve">IMPROVE</span> <strong>Admin Check:</strong> Compatible with existing admin system</li>
-                </ul>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🌍 Internationalization (i18n)</h3>
-                <ul class="changes-list">
-                    <li><span class="badge badge-i18n">i18n</span> <strong>Polish (PL):</strong> Complete translations for all UI elements</li>
-                    <li><span class="badge badge-i18n">i18n</span> <strong>English (EN):</strong> Full English translation support</li>
-                    <li><span class="badge badge-i18n">i18n</span> <strong>Spanish (ES):</strong> Complete Spanish translations</li>
-                    <li><span class="badge badge-i18n">i18n</span> <strong>60+ Translation Keys:</strong> Forms, messages, buttons, labels</li>
-                    <li><span class="badge badge-i18n">i18n</span> <strong>JavaScript i18n:</strong> Translations passed from PHP to JS</li>
-                </ul>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🎨 Frontend Improvements</h3>
-                <ul class="changes-list">
-                    <li><span class="badge badge-improve">IMPROVE</span> <strong>CSS Path Fixed:</strong> ../assets/css/reviews.css (relative paths)</li>
-                    <li><span class="badge badge-improve">IMPROVE</span> <strong>Include Order:</strong> Reviews before footer in product-detail.php</li>
-                    <li><span class="badge badge-improve">IMPROVE</span> <strong>Star Interaction:</strong> Click to select rating, visual feedback</li>
-                    <li><span class="badge badge-improve">IMPROVE</span> <strong>Form Validation:</strong> Client-side validation with error messages</li>
-                </ul>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🛡️ Admin Panel Integration</h3>
-                <ul class="changes-list">
-                    <li><span class="badge badge-new">NEW</span> <strong>Reviews Menu Item:</strong> Added to admin navigation</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>Dashboard Statistics:</strong> Reviews count + pending reviews</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>Filter Tabs:</strong> Pending, approved, rejected, all</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>Quick Actions:</strong> Approve/reject/delete buttons</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>Review Details Modal:</strong> Full review view with metadata</li>
-                    <li><span class="badge badge-new">NEW</span> <strong>Product Links:</strong> Direct links to products from admin</li>
-                </ul>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🐛 Bugs Squashed</h3>
-                <ul class="changes-list">
-                    <li>❌ "Invalid action" error - FIXED (JSON body parsing)</li>
-                    <li>❌ Stars not clickable - FIXED (init timing)</li>
-                    <li>❌ "Pomocne?" not translated - FIXED (i18n integration)</li>
-                    <li>❌ HTTP 500 in admin - FIXED (PHP 7.x compatibility)</li>
-                    <li>❌ Column 'u.name' not found - FIXED (CONCAT fix)</li>
-                    <li>❌ Reviews CSS not loading - FIXED (relative path)</li>
-                    <li>❌ Forms after </body> tag - FIXED (include order)</li>
-                </ul>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">📊 API Endpoints</h3>
-                <ul class="changes-list">
-                    <li><strong>GET /api/reviews-api.php?action=list</strong> - List reviews for product</li>
-                    <li><strong>GET /api/reviews-api.php?action=stats</strong> - Get statistics</li>
-                    <li><strong>POST /api/reviews-api.php (action=add)</strong> - Submit new review</li>
-                    <li><strong>POST /api/reviews-api.php (action=helpful)</strong> - Mark as helpful</li>
-                    <li><strong>POST /api/reviews-api.php (action=approve)</strong> - Approve review (admin)</li>
-                    <li><strong>POST /api/reviews-api.php (action=reject)</strong> - Reject review (admin)</li>
-                    <li><strong>GET /api/reviews-api.php?action=pending</strong> - Get pending reviews (admin)</li>
-                </ul>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🧪 Testing Tools Created</h3>
-                <ul class="changes-list">
-                    <li><span class="badge badge-improve">TOOL</span> <strong>test-session.php</strong> - Session variable checker</li>
-                    <li><span class="badge badge-improve">TOOL</span> <strong>test-api.php</strong> - API endpoint tester</li>
-                    <li><span class="badge badge-improve">TOOL</span> <strong>test-reviews.php</strong> - Component isolation test</li>
-                    <li><span class="badge badge-improve">TOOL</span> <strong>CHECK-STRUCTURE.sql</strong> - Database structure verification</li>
-                    <li><span class="badge badge-improve">TOOL</span> <strong>fix-helpful-count.sql</strong> - Column migration script</li>
-                </ul>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">📚 Documentation</h3>
-                <ul class="changes-list">
-                    <li><span class="badge badge-improve">DOC</span> <strong>FINAL-FIXES.md</strong> - Complete implementation guide</li>
-                    <li><span class="badge badge-improve">DOC</span> <strong>FIXES-APPLIED.md</strong> - Detailed change log</li>
-                    <li><span class="badge badge-improve">DOC</span> <strong>REVIEWS-I18N-INSTRUCTIONS.txt</strong> - i18n setup guide</li>
-                    <li><span class="badge badge-improve">DOC</span> <strong>reviews-translations.php</strong> - Translation keys (60+)</li>
-                </ul>
-                
-                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">📈 Technical Stats</h3>
-                <ul class="changes-list">
-                    <li><strong>Total Lines of Code:</strong> ~2,000 lines</li>
-                    <li><strong>Files Modified:</strong> 15+ files</li>
-                    <li><strong>New Database Columns:</strong> 1 (helpful_count)</li>
-                    <li><strong>Translation Keys:</strong> 60+ (PL/EN/ES)</li>
-                    <li><strong>API Endpoints:</strong> 7 actions</li>
-                    <li><strong>Session Compatibility:</strong> 3 different session systems</li>
-                    <li><strong>PHP Version:</strong> 7.x compatible (no match() expressions)</li>
-                </ul>
-            </div>
-
-            <!-- v2.3c - PASSWORD RESET SYSTEM -->
-            <div class="version">
-                <h2>v2.3c - Password Reset System 🔐</h2>
+                <h2>v2.3c - Password Reset System 🔐 <span class="latest-badge">LATEST</span></h2>
                 <div class="version-meta">
                     <span>📅 Data: 25.11.2025</span>
                     <span>📄 Status: PRODUCTION READY</span>
@@ -292,6 +162,31 @@
                     <li><span class="badge badge-new">NEW</span> <strong>Debug Output:</strong> On-screen debugging with detailed logs</li>
                     <li><span class="badge badge-new">NEW</span> <strong>Multi-language:</strong> PL/EN/ES email templates</li>
                 </ul>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🐛 Bugs Squashed</h3>
+                <ul class="changes-list">
+                    <li>❌ "Link resetujący jest nieprawidłowy lub wygasł" - FIXED</li>
+                    <li>❌ Token expiring immediately (0 seconds) - FIXED</li>
+                    <li>❌ Email not sending via mail() function - FIXED (switched to SMTP)</li>
+                    <li>❌ Timezone mismatch causing immediate expiry - FIXED</li>
+                </ul>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">📊 Technical Details</h3>
+                <ul class="changes-list">
+                    <li><strong>SMTP Host:</strong> ssl0.ovh.net:465 (SSL/SMTPS)</li>
+                    <li><strong>Token Length:</strong> 64 characters (bin2hex(random_bytes(32)))</li>
+                    <li><strong>Token Validity:</strong> 3600 seconds (1 hour)</li>
+                    <li><strong>Database Table:</strong> password_resets (7 columns)</li>
+                    <li><strong>Timezone:</strong> Europe/Warsaw (UTC+1)</li>
+                </ul>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🧪 Testing Tools Created</h3>
+                <ul class="changes-list">
+                    <li><span class="badge badge-improve">TOOL</span> <strong>test-smtp.php</strong> - SMTP connection test</li>
+                    <li><span class="badge badge-improve">TOOL</span> <strong>check-reset.php</strong> - Token validation checker</li>
+                    <li><span class="badge badge-improve">TOOL</span> <strong>reset-password-ONSCREEN.php</strong> - Debug version</li>
+                    <li><span class="badge badge-improve">TOOL</span> <strong>verify-file.php</strong> - File version checker</li>
+                </ul>
             </div>
 
             <!-- v2.3a - LIBRARY SYSTEM -->
@@ -315,11 +210,23 @@
                     <li><span class="badge badge-new">NEW</span> <strong>autoload.php</strong> - PSR-4 compliant</li>
                     <li><span class="badge badge-new">NEW</span> <strong>init.php</strong> - Backward compatibility</li>
                 </ul>
+                
+                <h3 style="color: #1a4d2e; margin: 20px 0 10px 0;">🗄️ Database Tables</h3>
+                <ul class="changes-list">
+                    <li><span class="badge badge-new">NEW</span> <strong>login_attempts</strong> - Failed login tracking</li>
+                    <li><span class="badge badge-new">NEW</span> <strong>password_resets</strong> - Token-based password reset</li>
+                    <li><span class="badge badge-new">NEW</span> <strong>wishlist</strong> - User wishlist</li>
+                    <li><span class="badge badge-new">NEW</span> <strong>product_comparisons</strong> - Product comparison</li>
+                    <li><span class="badge badge-new">NEW</span> <strong>product_reviews</strong> - Reviews & ratings</li>
+                    <li><span class="badge badge-new">NEW</span> <strong>blog_posts</strong> - Blog with FULLTEXT search</li>
+                    <li><span class="badge badge-new">NEW</span> <strong>blog_comments</strong> - Blog comments</li>
+                    <li><span class="badge badge-improve">UPDATE</span> <strong>users</strong> - Added verification_token, email_verified_at, last_login</li>
+                </ul>
             </div>
 
             <!-- v2.3 - BASE SYSTEM -->
             <div class="version">
-                <h2>v2.3 - Base System 🗝️</h2>
+                <h2>v2.3 - Base System 🏗️</h2>
                 <div class="version-meta">
                     <span>📅 Data: 2024</span>
                     <span>📄 Status: Stable</span>
@@ -336,8 +243,8 @@
         </div>
         
         <footer>
-            <p>Sersoltec v2.4 - Product Reviews System ⭐ | Ostatnia aktualizacja: 26.11.2025 | Status: Production Ready 🚀</p>
-            <p style="margin-top: 10px; font-size: 0.9rem;">Complete E-commerce Platform | Reviews & Ratings | Multi-language (PL/EN/ES) | Moderation System ✅</p>
+            <p>Sersoltec v2.3c - Password Reset System 🔐 | Ostatnia aktualizacja: 25.11.2025 | Status: Production Ready 🚀</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Professional E-commerce System | Secure Password Reset | Multi-language | SMTP Ready ✅</p>
         </footer>
     </div>
 </body>

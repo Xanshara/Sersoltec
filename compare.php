@@ -1,30 +1,22 @@
 <?php
 /**
- * SERSOLTEC v2.5 - Product Comparison Page (INTEGRATED)
- * 
- * Uses real header.php and footer.php
- * Uses colors from style.css :root variables
- * 
- * @version 2.5.4
- * @date 2025-11-27
+ * Compare Page - ABSOLUTE FINAL
+ * BEZ pomarańczowej sticky bar!
+ * Z tłumaczeniami!
  */
 
-// Start session
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Load config
-require_once __DIR__ . '/config.php';
+require_once '/var/www/lastchance/sersoltec/config.php';
 
-// Load translations
-if (file_exists(__DIR__ . '/includes/translations.php')) {
-    require_once __DIR__ . '/includes/translations.php';
+if (file_exists('/var/www/lastchance/sersoltec/includes/translations.php')) {
+    require_once '/var/www/lastchance/sersoltec/includes/translations.php';
 }
 
-// Page settings
-$page_title = 'Porównanie produktów - ' . SITE_NAME;
 $current_lang = getCurrentLanguage();
+$page_title = t('compare_title') . ' - ' . SITE_NAME;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $current_lang; ?>">
@@ -33,14 +25,9 @@ $current_lang = getCurrentLanguage();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $page_title; ?></title>
     
-    <!-- Main styles -->
     <link rel="stylesheet" href="/sersoltec/assets/css/styles.css">
     
-    <!-- Comparison System CSS -->
-    <!-- <link rel="stylesheet" href="/sersoltec/assets/css/comparison.css"> -->
-    
     <style>
-        /* Override comparison.css to use :root variables from styles.css */
         .comparison-header {
             background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
             color: var(--color-white);
@@ -55,46 +42,6 @@ $current_lang = getCurrentLanguage();
             margin-bottom: var(--spacing-sm);
         }
         
-        .comparison-header p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
-        }
-        
-        .btn-browse-products {
-            background: var(--color-primary);
-            color: var(--color-white);
-            padding: var(--spacing-md) var(--spacing-xl);
-            border-radius: var(--radius-md);
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-block;
-            transition: all var(--transition-normal);
-        }
-        
-        .btn-browse-products:hover {
-            background: var(--color-primary-light);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .btn-clear-comparison {
-            background: #dc3545;
-            color: white;
-            padding: var(--spacing-md) var(--spacing-xl);
-            border: none;
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-        }
-        
-        .btn-clear-comparison:hover {
-            background: #c82333;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        
         .comparison-page {
             max-width: 1500px;
             margin: 0 auto;
@@ -106,62 +53,34 @@ $current_lang = getCurrentLanguage();
             padding: var(--spacing-xxl);
         }
         
-        .comparison-empty-icon {
-            font-size: 5rem;
-            margin-bottom: var(--spacing-lg);
+        #comparison-content {
+            min-height: 400px;
         }
         
-        .comparison-empty h2 {
-            color: var(--color-primary-dark);
-            margin-bottom: var(--spacing-md);
+        /* HIDE STICKY BAR! */
+        #comparison-bar {
+            display: none !important;
         }
         
-        .comparison-empty p {
-            color: var(--color-text);
-            margin-bottom: var(--spacing-xl);
-        }
-        
-        /* Button styling using :root variables */
-        .btn-add-to-compare {
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-            color: var(--color-white);
-            border: none;
-            padding: var(--spacing-sm) var(--spacing-lg);
-            border-radius: var(--radius-md);
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            display: inline-flex;
-            align-items: center;
-            gap: var(--spacing-xs);
-        }
-        
-        .btn-add-to-compare:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .btn-add-to-compare.in-comparison {
-            background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+        .comparison-bar {
+            display: none !important;
         }
     </style>
 </head>
 <body>
 
-<?php include __DIR__ . '/includes/header.php'; ?>
+<?php include '/var/www/lastchance/sersoltec/includes/header.php'; ?>
 
 <div class="comparison-page">
     <div class="comparison-header">
-        <h1>⚖️ Porównanie produktów</h1>
-        <p>Porównaj wybrane produkty i znajdź najlepszy dla siebie</p>
+        <h1>⚖️ <?php echo t('compare_title'); ?></h1>
+        <p><?php echo t('compare_subtitle'); ?></p>
     </div>
     
     <div id="comparison-content">
-        <!-- Loading state -->
-        <div class="loading-state" style="text-align: center; padding: var(--spacing-xxl);">
+        <div style="text-align: center; padding: var(--spacing-xxl);">
             <div style="width: 50px; height: 50px; border: 4px solid var(--color-gray); border-top: 4px solid var(--color-primary); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto var(--spacing-lg);"></div>
-            <p style="color: var(--color-text);">Ładowanie produktów...</p>
+            <p><?php echo t('compare_loading'); ?></p>
         </div>
     </div>
 </div>
@@ -174,13 +93,31 @@ $current_lang = getCurrentLanguage();
 </style>
 
 <script>
-/**
- * Comparison Page Logic
- */
 class ComparisonPage {
     constructor() {
         this.apiUrl = '/sersoltec/api/comparison-api.php';
         this.products = [];
+        this.lang = '<?php echo $current_lang; ?>';
+        this.translations = {
+            feature: '<?php echo addslashes(t("compare_feature")); ?>',
+            image: '<?php echo addslashes(t("compare_image")); ?>',
+            name: '<?php echo addslashes(t("compare_name")); ?>',
+            price: '<?php echo addslashes(t("compare_price")); ?>',
+            category: '<?php echo addslashes(t("compare_category")); ?>',
+            description: '<?php echo addslashes(t("compare_description")); ?>',
+            stock: '<?php echo addslashes(t("compare_stock")); ?>',
+            actions: '<?php echo addslashes(t("compare_actions")); ?>',
+            available: '<?php echo addslashes(t("compare_available")); ?>',
+            unavailable: '<?php echo addslashes(t("compare_unavailable")); ?>',
+            no_category: '<?php echo addslashes(t("compare_no_category")); ?>',
+            view_details: '<?php echo addslashes(t("compare_view_details")); ?>',
+            remove: '<?php echo addslashes(t("compare_remove")); ?>',
+            empty_title: '<?php echo addslashes(t("compare_empty_title")); ?>',
+            empty_text: '<?php echo addslashes(t("compare_empty_text")); ?>',
+            browse: '<?php echo addslashes(t("compare_browse")); ?>',
+            clear: '<?php echo addslashes(t("compare_clear")); ?>',
+            confirm_clear: '<?php echo addslashes(t("compare_confirm_clear")); ?>'
+        };
         this.init();
     }
     
@@ -191,18 +128,14 @@ class ComparisonPage {
     
     async loadProducts() {
         try {
-            const response = await fetch(`${this.apiUrl}?action=list`);
+            const response = await fetch(`${this.apiUrl}?action=list&lang=${this.lang}`);
             const data = await response.json();
-            
-            console.log('API Response:', data);
             
             if (data.success && data.data.products) {
                 this.products = data.data.products;
-            } else {
-                console.error('API Error:', data.message);
             }
         } catch (error) {
-            console.error('Error loading products:', error);
+            console.error('Error:', error);
         }
     }
     
@@ -210,149 +143,103 @@ class ComparisonPage {
         const container = document.getElementById('comparison-content');
         
         if (this.products.length === 0) {
-            container.innerHTML = this.renderEmptyState();
+            container.innerHTML = `
+                <div class="comparison-empty">
+                    <div style="font-size: 5rem; margin-bottom: var(--spacing-lg);">📦</div>
+                    <h2>${this.translations.empty_title}</h2>
+                    <p>${this.translations.empty_text}</p>
+                    <a href="/sersoltec/pages/products.php" class="btn btn-primary">
+                        ${this.translations.browse}
+                    </a>
+                </div>
+            `;
             return;
         }
         
-        container.innerHTML = this.renderTable();
-    }
-    
-    renderEmptyState() {
-        return `
-            <div class="comparison-empty">
-                <div class="comparison-empty-icon">📦</div>
-                <h2>Brak produktów do porównania</h2>
-                <p>Dodaj produkty do porównania, aby zobaczyć je tutaj</p>
-                <a href="/sersoltec/pages/products.php" class="btn-browse-products">
-                    Przeglądaj produkty
-                </a>
-            </div>
-        `;
-    }
-    
-    renderTable() {
-        return `
-            <div class="comparison-table-wrapper">
-                <table class="comparison-table">
+        container.innerHTML = `
+            <div style="overflow-x: auto;">
+                <table class="comparison-table" style="width: 100%; border-collapse: collapse;">
                     <thead>
-                        <tr>
-                            <th>Cecha</th>
-                            ${this.products.map(p => `<th>${this.escapeHtml(p.name)}</th>`).join('')}
+                        <tr style="background: var(--color-light-gray);">
+                            <th style="padding: 1rem; text-align: left;">${this.translations.feature}</th>
+                            ${this.products.map(p => `<th style="padding: 1rem;">${this.escape(p.name)}</th>`).join('')}
                         </tr>
                     </thead>
                     <tbody>
-                        ${this.renderImageRow()}
-                        ${this.renderPriceRow()}
-                        ${this.renderCategoryRow()}
-                        ${this.renderDescriptionRow()}
-                        ${this.renderStockRow()}
-                        ${this.renderActionsRow()}
+                        <tr>
+                            <td style="padding: 1rem; font-weight: 600;">${this.translations.image}</td>
+                            ${this.products.map(p => `
+                                <td style="padding: 1rem; text-align: center;">
+                                    <img src="${p.image_url}" alt="${this.escape(p.name)}" 
+                                         style="max-width: 200px; height: auto;"
+                                         onerror="this.src='/sersoltec/assets/images/no-image.png'">
+                                </td>
+                            `).join('')}
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; font-weight: 600;">${this.translations.price}</td>
+                            ${this.products.map(p => `
+                                <td style="padding: 1rem; text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--color-primary);">
+                                    ${this.formatPrice(p.price)} PLN
+                                </td>
+                            `).join('')}
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; font-weight: 600;">${this.translations.category}</td>
+                            ${this.products.map(p => `
+                                <td style="padding: 1rem; text-align: center;">
+                                    ${this.escape(p.category || this.translations.no_category)}
+                                </td>
+                            `).join('')}
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; font-weight: 600;">${this.translations.description}</td>
+                            ${this.products.map(p => `
+                                <td style="padding: 1rem;">
+                                    ${this.escape(p.description).substring(0, 200)}...
+                                </td>
+                            `).join('')}
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; font-weight: 600;">${this.translations.stock}</td>
+                            ${this.products.map(p => `
+                                <td style="padding: 1rem; text-align: center;">
+                                    ${p.stock_quantity > 0 ? this.translations.available : this.translations.unavailable}
+                                </td>
+                            `).join('')}
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; font-weight: 600;">${this.translations.actions}</td>
+                            ${this.products.map(p => `
+                                <td style="padding: 1rem; text-align: center;">
+                                    <a href="/sersoltec/pages/product-detail.php?id=${p.id}" 
+                                       class="btn btn-primary btn-sm" style="margin-bottom: 0.5rem;">
+                                        👁️ ${this.translations.view_details}
+                                    </a>
+                                    <button onclick="comparisonPage.removeProduct(${p.id})" 
+                                            class="btn btn-secondary btn-sm">
+                                        ✕ ${this.translations.remove}
+                                    </button>
+                                </td>
+                            `).join('')}
+                        </tr>
                     </tbody>
                 </table>
             </div>
             
-            <div style="text-align: center; margin-top: var(--spacing-xxl);">
-                <button onclick="comparisonPage.clearAll()" class="btn-clear-comparison">
-                    🗑️ Wyczyść porównanie
+            <div style="text-align: center; margin-top: 2rem;">
+                <button onclick="comparisonPage.clearAll()" 
+                        class="btn btn-secondary btn-lg">
+                    🗑️ ${this.translations.clear}
                 </button>
             </div>
         `;
     }
     
-    escapeHtml(text) {
+    escape(text) {
         const div = document.createElement('div');
         div.textContent = text || '';
         return div.innerHTML;
-    }
-    
-    renderImageRow() {
-        return `
-            <tr>
-                <td class="row-label">Zdjęcie</td>
-                ${this.products.map(p => `
-                    <td class="product-cell">
-                        <img src="${p.image_url || '/sersoltec/assets/images/no-image.png'}" 
-                             alt="${this.escapeHtml(p.name)}" 
-                             class="product-image"
-                             onerror="this.src='/sersoltec/assets/images/no-image.png'">
-                    </td>
-                `).join('')}
-            </tr>
-        `;
-    }
-    
-    renderPriceRow() {
-        return `
-            <tr>
-                <td class="row-label">Cena</td>
-                ${this.products.map(p => `
-                    <td class="product-cell">
-                        <div class="product-price">${this.formatPrice(p.price)} PLN</div>
-                    </td>
-                `).join('')}
-            </tr>
-        `;
-    }
-    
-    renderCategoryRow() {
-        return `
-            <tr>
-                <td class="row-label">Kategoria</td>
-                ${this.products.map(p => `
-                    <td class="product-cell">
-                        <span class="product-category">${this.escapeHtml(p.category || 'Bez kategorii')}</span>
-                    </td>
-                `).join('')}
-            </tr>
-        `;
-    }
-    
-    renderDescriptionRow() {
-        return `
-            <tr>
-                <td class="row-label">Opis</td>
-                ${this.products.map(p => `
-                    <td class="product-cell">
-                        <div class="spec-value">${this.escapeHtml(p.description || 'Brak opisu')}</div>
-                    </td>
-                `).join('')}
-            </tr>
-        `;
-    }
-    
-    renderStockRow() {
-        return `
-            <tr>
-                <td class="row-label">Dostępność</td>
-                ${this.products.map(p => `
-                    <td class="product-cell">
-                        <div class="spec-value ${p.stock_quantity > 0 ? 'highlight' : 'lowlight'}">
-                            ${p.stock_quantity > 0 ? '✓ Dostępny' : '✗ Niedostępny'}
-                        </div>
-                    </td>
-                `).join('')}
-            </tr>
-        `;
-    }
-    
-    renderActionsRow() {
-        return `
-            <tr>
-                <td class="row-label">Akcje</td>
-                ${this.products.map(p => `
-                    <td class="product-cell">
-                        <div class="product-actions">
-                            <a href="/sersoltec/pages/product-detail.php?id=${p.id}" class="btn-view-product">
-                                👁️ Zobacz szczegóły
-                            </a>
-                            <button onclick="comparisonPage.removeProduct(${p.id})" class="btn-remove-compare">
-                                ✕ Usuń z porównania
-                            </button>
-                        </div>
-                    </td>
-                `).join('')}
-            </tr>
-        `;
     }
     
     formatPrice(price) {
@@ -375,13 +262,12 @@ class ComparisonPage {
                 alert('Błąd: ' + data.message);
             }
         } catch (error) {
-            console.error('Error removing product:', error);
-            alert('Błąd usuwania produktu');
+            console.error('Error:', error);
         }
     }
     
     async clearAll() {
-        if (!confirm('Czy na pewno chcesz wyczyścić całe porównanie?')) {
+        if (!confirm(this.translations.confirm_clear)) {
             return;
         }
         
@@ -395,24 +281,19 @@ class ComparisonPage {
             
             if (data.success) {
                 window.location.reload();
-            } else {
-                alert('Błąd: ' + data.message);
             }
         } catch (error) {
-            console.error('Error clearing comparison:', error);
-            alert('Błąd czyszczenia porównania');
+            console.error('Error:', error);
         }
     }
 }
 
-// Initialize
 const comparisonPage = new ComparisonPage();
 </script>
 
-<?php include __DIR__ . '/includes/footer.php'; ?>
+<?php include '/var/www/lastchance/sersoltec/includes/footer.php'; ?>
 
-<!-- Comparison System JS (sticky bar) -->
-<script src="/sersoltec/assets/js/comparison.js"></script>
+<!-- DON'T LOAD comparison.js - it creates orange sticky bar! -->
 
 </body>
 </html>

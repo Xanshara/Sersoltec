@@ -1,0 +1,16 @@
+{
+  "slug": "pierwszy-test-wpis",
+  "date": "2025-11-25 12:00:00",
+  "author_id": 1,
+  "image": "default.jpg",
+  "title": {
+    "pl": "Wpis Testowy: Logika Bloga Działa!",
+    "en": "Test Post: Blog Logic is Working!",
+    "de": "Testbeitrag: Die Blog-Logik funktioniert!"
+  },
+  "content": {
+    "pl": "<p>Gratulacje! Jeśli widzisz ten tekst w liście wpisów (jako skrót) lub jako pełny wpis po kliknięciu 'Czytaj dalej', oznacza to, że odczyt plików JSON, parsowanie i obsługa tłumaczeń jest <strong>poprawna</strong>. Problem leżał w obsłudze pustego folderu lub brakujących kluczach.</p><p>Możesz usunąć ten plik i stworzyć własne wpisy.</p>",
+    "en": "<p>Congratulations! If you see this text in the list of posts (as an excerpt) or as a full post after clicking 'Read more,' it means that JSON file reading, parsing, and translation handling are <strong>correct</strong>. The issue was with handling an empty folder or missing translation keys.</p><p>You can now delete this file and create your own posts.</p>",
+    "de": "<p>Herzlichen Glückwunsch! Wenn Sie diesen Text in der Beitragsliste (als Auszug) oder als vollständigen Beitrag nach dem Klicken auf 'Weiterlesen' sehen, bedeutet dies, dass das Lesen von JSON-Dateien, das Parsen und die Übersetzungsverarbeitung <strong>korrekt</strong> funktionieren. Das Problem lag in der Handhabung eines leeren Ordners oder fehlenden Übersetzungsschlüsseln.</p><p>Sie können diese Datei nun löschen und Ihre eigenen Beiträge erstellen.</p>"
+  }
+}
