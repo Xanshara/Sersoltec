@@ -1,0 +1,91 @@
+[2025-11-30 22:19:38] [INFO] Request: GET list
+[2025-11-30 22:19:38] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:19:38] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:19:38] [INFO] Database connected OK
+[2025-11-30 22:19:38] [INFO] Action: list
+[2025-11-30 22:19:38] [INFO] Columns: id,category_id,sku,name_pl,name_en,name_es,description_pl,description_en,description_es,specifications,price_base,price_min,price_max,unit,image,images,weight,active,b2b_only,created_at,updated_at
+[2025-11-30 22:33:37] [INFO] Request: GET list
+[2025-11-30 22:33:37] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:33:37] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:33:37] [INFO] Database connected OK
+[2025-11-30 22:33:37] [INFO] Action: list
+[2025-11-30 22:33:37] [INFO] Columns: id,category_id,sku,name_pl,name_en,name_es,description_pl,description_en,description_es,specifications,price_base,price_min,price_max,unit,image,images,weight,active,b2b_only,created_at,updated_at
+[2025-11-30 22:33:47] [INFO] Request: GET list
+[2025-11-30 22:33:47] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:33:47] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:33:47] [INFO] Database connected OK
+[2025-11-30 22:33:47] [INFO] Action: list
+[2025-11-30 22:33:47] [INFO] Columns: id,category_id,sku,name_pl,name_en,name_es,description_pl,description_en,description_es,specifications,price_base,price_min,price_max,unit,image,images,weight,active,b2b_only,created_at,updated_at
+[2025-11-30 22:33:49] [INFO] Request: GET list
+[2025-11-30 22:33:49] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:33:49] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:33:49] [INFO] Database connected OK
+[2025-11-30 22:33:49] [INFO] Action: list
+[2025-11-30 22:33:49] [INFO] Columns: id,category_id,sku,name_pl,name_en,name_es,description_pl,description_en,description_es,specifications,price_base,price_min,price_max,unit,image,images,weight,active,b2b_only,created_at,updated_at
+[2025-11-30 22:41:10] [INFO] Request: GET list
+[2025-11-30 22:41:10] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:41:10] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:41:10] [INFO] Database connected OK
+[2025-11-30 22:41:10] [INFO] Action: list
+[2025-11-30 22:41:10] [INFO] Columns: id,category_id,sku,name_pl,name_en,name_es,description_pl,description_en,description_es,specifications,price_base,price_min,price_max,unit,image,images,weight,active,b2b_only,created_at,updated_at
+[2025-11-30 22:42:02] [INFO] Request: GET list
+[2025-11-30 22:42:02] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:42:02] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:42:02] [INFO] Database connected OK
+[2025-11-30 22:42:02] [INFO] Action: list
+[2025-11-30 22:42:02] [INFO] Columns: id,category_id,sku,name_pl,name_en,name_es,description_pl,description_en,description_es,specifications,price_base,price_min,price_max,unit,image,images,weight,active,b2b_only,created_at,updated_at
+[2025-11-30 22:42:03] [INFO] Request: GET list
+[2025-11-30 22:42:03] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:42:03] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:42:03] [INFO] Database connected OK
+[2025-11-30 22:42:03] [INFO] Action: list
+[2025-11-30 22:42:04] [INFO] Columns: id,category_id,sku,name_pl,name_en,name_es,description_pl,description_en,description_es,specifications,price_base,price_min,price_max,unit,image,images,weight,active,b2b_only,created_at,updated_at
+[2025-11-30 22:42:05] [INFO] Request: GET list
+[2025-11-30 22:42:05] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:42:05] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:42:05] [INFO] Database connected OK
+[2025-11-30 22:42:05] [INFO] Action: list
+[2025-11-30 22:42:05] [INFO] Columns: id,category_id,sku,name_pl,name_en,name_es,description_pl,description_en,description_es,specifications,price_base,price_min,price_max,unit,image,images,weight,active,b2b_only,created_at,updated_at
+[2025-11-30 22:42:06] [INFO] Request: GET list
+[2025-11-30 22:42:06] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:42:06] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:42:06] [INFO] Database connected OK
+[2025-11-30 22:42:06] [INFO] Action: list
+[2025-11-30 22:42:06] [INFO] Columns: id,category_id,sku,name_pl,name_en,name_es,description_pl,description_en,description_es,specifications,price_base,price_min,price_max,unit,image,images,weight,active,b2b_only,created_at,updated_at
+[2025-11-30 22:42:07] [INFO] Request: GET list
+[2025-11-30 22:42:07] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:42:07] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:42:07] [INFO] Database connected OK
+[2025-11-30 22:42:07] [INFO] Action: list
+[2025-11-30 22:42:07] [INFO] Columns: id,category_id,sku,name_pl,name_en,name_es,description_pl,description_en,description_es,specifications,price_base,price_min,price_max,unit,image,images,weight,active,b2b_only,created_at,updated_at
+[2025-11-30 22:42:08] [INFO] Request: GET list
+[2025-11-30 22:42:08] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:42:08] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:42:08] [INFO] Database connected OK
+[2025-11-30 22:42:08] [INFO] Action: list
+[2025-11-30 22:42:08] [INFO] Columns: id,category_id,sku,name_pl,name_en,name_es,description_pl,description_en,description_es,specifications,price_base,price_min,price_max,unit,image,images,weight,active,b2b_only,created_at,updated_at
+[2025-11-30 22:42:17] [INFO] Request: POST clear
+[2025-11-30 22:42:17] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:42:17] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:42:17] [INFO] Database connected OK
+[2025-11-30 22:42:17] [INFO] Action: clear
+[2025-11-30 22:42:17] [INFO] Request: GET list
+[2025-11-30 22:42:17] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:42:17] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:42:17] [INFO] Database connected OK
+[2025-11-30 22:42:17] [INFO] Action: list
+[2025-11-30 22:42:19] [INFO] Request: GET list
+[2025-11-30 22:42:19] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:42:19] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:42:19] [INFO] Database connected OK
+[2025-11-30 22:42:19] [INFO] Action: list
+[2025-11-30 22:59:16] [INFO] Request: GET count
+[2025-11-30 22:59:16] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 22:59:16] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 22:59:16] [INFO] Database connected OK
+[2025-11-30 22:59:16] [INFO] Action: count
+[2025-11-30 23:13:00] [INFO] Request: GET list
+[2025-11-30 23:13:00] [INFO] Using config: /var/www/lastchance/sersoltec/api/../config.php
+[2025-11-30 23:13:00] [INFO] Connecting to: localhost / sersoltec_db
+[2025-11-30 23:13:00] [INFO] Database connected OK
+[2025-11-30 23:13:00] [INFO] Action: list

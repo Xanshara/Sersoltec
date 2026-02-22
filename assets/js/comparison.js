@@ -1,16 +1,15 @@
 /**
- * SERSOLTEC v2.5 - Product Comparison System
+ * SERSOLTEC v2.5 - Product Comparison System (FIXED v2.6)
  * 
- * Features:
- * - Add/remove products from comparison
- * - Max 4 products
- * - Sticky comparison bar
- * - localStorage sync
- * - AJAX API calls
- * - Auto-detect API path (root/subdirectory)
+ * FIXES:
+ * 1. Auto-detect API path (works in root and subdirectories)
+ * 2. Better error handling with user-friendly messages
+ * 3. Visual feedback for button states
+ * 4. Proper localStorage sync
+ * 5. Toast notifications for user feedback
  * 
- * @version 2.5.0
- * @date 2025-11-27
+ * @version 2.6.0
+ * @date 2025-11-30
  */
 
 class ComparisonManager {
@@ -28,6 +27,7 @@ class ComparisonManager {
     
     /**
      * Auto-detect API URL (works in root and subdirectories)
+     * FIX: Removed hardcoded /sersoltec/ path
      */
     detectApiUrl() {
         // Method 1: Check for <base> tag
@@ -47,6 +47,11 @@ class ComparisonManager {
         const path = window.location.pathname;
         const pathParts = path.split('/').filter(p => p);
         
+        console.log('🔍 Path detection debug:', {
+            pathname: path,
+            parts: pathParts
+        });
+        
         // If we're in /pages/ subdirectory, go up one level
         if (pathParts.includes('pages')) {
             const index = pathParts.indexOf('pages');
@@ -54,10 +59,13 @@ class ComparisonManager {
             return basePath + '/api/comparison-api.php';
         }
         
-        // Method 4: Check if we're in a subdirectory
-        if (pathParts.length > 0 && !path.includes('.php')) {
-            // Likely in subdirectory like /sersoltec/
-            return '/' + pathParts[0] + '/api/comparison-api.php';
+        // If we're in a subdirectory like /sersoltec/
+        if (pathParts.length > 0 && !pathParts.includes('index.php')) {
+            // Check if first part looks like subdirectory (not a filename)
+            const firstPart = pathParts[0];
+            if (!firstPart.includes('.php')) {
+                return '/' + firstPart + '/api/comparison-api.php';
+            }
         }
         
         // Default: root
@@ -92,24 +100,45 @@ class ComparisonManager {
     async loadFromAPI() {
         try {
             const response = await fetch(`${this.apiUrl}?action=list`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
             const data = await response.json();
             
-            if (data.success && data.data.products) {
+            if (data.success && data.data && data.data.products) {
                 this.items = data.data.products.map(p => ({
                     id: p.id,
-                    name: p.name,
-                    price: p.price,
-                    image: p.image_url,
-                    category: p.category
+                    name: p.name || 'Unknown',
+                    price: p.price || 0,
+                    image: p.image_url || p.image,
+                    category: p.category || 'Uncategorized'
                 }));
+                console.log('✅ Loaded from API:', this.items.length, 'items');
+            } else if (!data.success) {
+                console.warn('⚠️ API error:', data.message);
             }
         } catch (error) {
             console.warn('⚠️ Could not load from API:', error);
             // Fallback to localStorage
+            this.loadFromLocalStorage();
+        }
+    }
+    
+    /**
+     * Load from localStorage fallback
+     */
+    loadFromLocalStorage() {
+        try {
             const stored = localStorage.getItem('comparison_items');
             if (stored) {
                 this.items = JSON.parse(stored);
+                console.log('✅ Loaded from localStorage:', this.items.length, 'items');
             }
+        } catch (error) {
+            console.warn('⚠️ Could not load from localStorage:', error);
+            this.items = [];
         }
     }
     
@@ -117,63 +146,24 @@ class ComparisonManager {
      * Sync with localStorage
      */
     syncWithLocalStorage() {
-        // Save current items
-        localStorage.setItem('comparison_items', JSON.stringify(this.items));
-        
-        // Listen for changes from other tabs
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'comparison_items') {
-                this.items = JSON.parse(e.newValue || '[]');
-                this.updateUI();
-            }
-        });
-    }
-    
-    /**
-     * Create sticky comparison bar
-     */
-    createComparisonBar() {
-        // Check if already exists
-        if (document.getElementById('comparison-bar')) {
-            this.bar = document.getElementById('comparison-bar');
-            return;
+        try {
+            // Save current items
+            localStorage.setItem('comparison_items', JSON.stringify(this.items));
+            
+            // Listen for changes from other tabs
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'comparison_items') {
+                    try {
+                        this.items = JSON.parse(e.newValue || '[]');
+                        this.updateUI();
+                    } catch (err) {
+                        console.error('Error parsing localStorage:', err);
+                    }
+                }
+            });
+        } catch (error) {
+            console.warn('⚠️ localStorage not available:', error);
         }
-        
-        const bar = document.createElement('div');
-        bar.id = 'comparison-bar';
-        bar.className = 'comparison-bar';
-        bar.style.display = 'none';
-        
-        bar.innerHTML = `
-            <div class="comparison-bar-content">
-                <div class="comparison-bar-left">
-                    <strong>Porównanie produktów</strong>
-                    <span class="comparison-count">0</span>
-                </div>
-                <div class="comparison-bar-items" id="comparison-items-container"></div>
-                <div class="comparison-bar-right">
-                    <a href="compare.php" class="btn-compare">
-                        Porównaj produkty
-                    </a>
-                    <button class="btn-clear-comparison" title="Wyczyść wszystko">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(bar);
-        this.bar = bar;
-        
-        // Event listener for clear button
-        bar.querySelector('.btn-clear-comparison').addEventListener('click', () => {
-            if (confirm('Czy na pewno chcesz wyczyścić porównanie?')) {
-                this.clearAll();
-            }
-        });
     }
     
     /**
@@ -204,7 +194,10 @@ class ComparisonManager {
      * Add product to comparison
      */
     async addProduct(productId, button = null) {
-        if (!productId) return;
+        if (!productId) {
+            this.showToast('❌ Błąd: Brak ID produktu', 'error');
+            return;
+        }
         
         // Check if already in comparison
         if (this.items.some(item => item.id === productId)) {
@@ -214,7 +207,7 @@ class ComparisonManager {
         
         // Check max limit
         if (this.items.length >= this.maxItems) {
-            this.showToast(`⚠️ Możesz porównać maksymalnie ${this.maxItems} produkty`, 'warning');
+            this.showToast(`⚠️ Maksymalnie ${this.maxItems} produkty`, 'warning');
             return;
         }
         
@@ -225,12 +218,15 @@ class ComparisonManager {
         }
         
         try {
-            // API call
             const response = await fetch(`${this.apiUrl}?action=add`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ product_id: productId })
             });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
             
             const data = await response.json();
             
@@ -241,17 +237,24 @@ class ComparisonManager {
                 this.updateUI();
                 
                 this.showToast('✓ Dodano do porównania', 'success');
+                
+                // Update button
+                if (button) {
+                    button.classList.add('in-comparison');
+                    button.innerHTML = '✓ W porównaniu';
+                }
             } else {
-                throw new Error(data.message);
+                throw new Error(data.message || 'Błąd API');
             }
-            
         } catch (error) {
             console.error('Error adding to comparison:', error);
-            this.showToast('❌ ' + (error.message || 'Błąd dodawania'), 'error');
+            this.showToast('❌ Błąd dodawania: ' + error.message, 'error');
         } finally {
             if (button) {
                 button.disabled = false;
-                button.innerHTML = '⚖️ Dodaj do porównania';
+                if (!button.classList.contains('in-comparison')) {
+                    button.innerHTML = '⚖️ Dodaj do porównania';
+                }
             }
         }
     }
@@ -263,12 +266,15 @@ class ComparisonManager {
         if (!productId) return;
         
         try {
-            // API call
             const response = await fetch(`${this.apiUrl}?action=remove`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ product_id: productId })
             });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
             
             const data = await response.json();
             
@@ -280,9 +286,8 @@ class ComparisonManager {
                 
                 this.showToast('✓ Usunięto z porównania', 'success');
             } else {
-                throw new Error(data.message);
+                throw new Error(data.message || 'Błąd API');
             }
-            
         } catch (error) {
             console.error('Error removing from comparison:', error);
             this.showToast('❌ Błąd usuwania', 'error');
@@ -293,11 +298,17 @@ class ComparisonManager {
      * Clear all items
      */
     async clearAll() {
+        if (!confirm('Czy na pewno chcesz wyczyścić porównanie?')) return;
+        
         try {
             const response = await fetch(`${this.apiUrl}?action=clear`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
             });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
             
             const data = await response.json();
             
@@ -325,31 +336,13 @@ class ComparisonManager {
             badge.style.display = this.items.length > 0 ? 'inline-block' : 'none';
         });
         
-        // Update comparison bar
+        // Update bar visibility
         if (this.bar) {
-            if (this.items.length > 0) {
-                this.bar.style.display = 'block';
-                this.updateComparisonBar();
-            } else {
-                this.bar.style.display = 'none';
-            }
+            this.bar.style.display = this.items.length > 0 ? 'block' : 'none';
         }
         
-        // Update "Add to Compare" buttons
-        document.querySelectorAll('.btn-add-to-compare').forEach(btn => {
-            const productId = parseInt(btn.dataset.productId);
-            const inComparison = this.items.some(item => item.id === productId);
-            
-            if (inComparison) {
-                btn.classList.add('in-comparison');
-                btn.innerHTML = '✓ W porównaniu';
-                btn.disabled = true;
-            } else {
-                btn.classList.remove('in-comparison');
-                btn.innerHTML = '⚖️ Dodaj do porównania';
-                btn.disabled = false;
-            }
-        });
+        // Update items in bar
+        this.updateComparisonBar();
     }
     
     /**
@@ -359,50 +352,140 @@ class ComparisonManager {
         const container = document.getElementById('comparison-items-container');
         if (!container) return;
         
+        if (this.items.length === 0) {
+            container.innerHTML = '';
+            return;
+        }
+        
         container.innerHTML = this.items.map(item => `
-            <div class="comparison-item">
-                <img src="${item.image || '/assets/images/no-image.png'}" alt="${item.name}">
-                <button class="remove-from-compare" data-product-id="${item.id}" title="Usuń">×</button>
+            <div class="comparison-item" title="${item.name}">
+                ${item.image ? `<img src="${item.image}" alt="${item.name}">` : '<span>📦</span>'}
+                <button class="remove-from-compare" data-product-id="${item.id}" title="Usuń">✕</button>
             </div>
         `).join('');
-        
-        // Update count
-        const countElement = this.bar.querySelector('.comparison-count');
-        if (countElement) {
-            countElement.textContent = `(${this.items.length}/${this.maxItems})`;
+    }
+    
+    /**
+     * Create sticky comparison bar
+     */
+    createComparisonBar() {
+        // Check if already exists
+        if (document.getElementById('comparison-bar')) {
+            this.bar = document.getElementById('comparison-bar');
+            return;
         }
+        
+        const bar = document.createElement('div');
+        bar.id = 'comparison-bar';
+        bar.className = 'comparison-bar';
+        bar.style.display = 'none';
+        bar.style.cssText = `
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #ff9800 0%, #ff6f00 100%);
+            color: white;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            padding: 15px 20px;
+        `;
+        
+        bar.innerHTML = `
+            <div class="comparison-bar-content" style="display: flex; gap: 20px; align-items: center; max-width: 1400px; margin: 0 auto;">
+                <div class="comparison-bar-left" style="display: flex; align-items: center; gap: 10px; font-size: 16px;">
+                    <strong>Porównanie</strong>
+                    <span class="comparison-count" style="background: rgba(255,255,255,0.3); padding: 4px 12px; border-radius: 20px; font-size: 14px;">0</span>
+                </div>
+                <div class="comparison-bar-items" id="comparison-items-container" style="flex: 1; display: flex; gap: 10px; overflow-x: auto;"></div>
+                <div class="comparison-bar-right" style="display: flex; gap: 10px;">
+                    <a href="${this.getComparePageUrl()}" class="btn-compare" style="background: white; color: #ff9800; padding: 10px 24px; border-radius: 25px; font-weight: 600; text-decoration: none; white-space: nowrap;">
+                        👁️ Porównaj
+                    </a>
+                    <button class="btn-clear-comparison" onclick="window.comparisonManager?.clearAll()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer;">
+                        🗑️
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(bar);
+        this.bar = bar;
+    }
+    
+    /**
+     * Get comparison page URL
+     */
+    getComparePageUrl() {
+        // Try to detect the path
+        const path = window.location.pathname;
+        const pathParts = path.split('/').filter(p => p && !p.includes('.php'));
+        
+        if (pathParts.length > 0 && !pathParts.includes('pages')) {
+            return '/' + pathParts[0] + '/compare.php';
+        }
+        
+        if (pathParts.includes('pages')) {
+            const index = pathParts.indexOf('pages');
+            const basePath = pathParts.slice(0, index).join('/');
+            return basePath ? '/' + basePath + '/compare.php' : '/compare.php';
+        }
+        
+        return '/compare.php';
     }
     
     /**
      * Show toast notification
      */
     showToast(message, type = 'info') {
-        // Remove existing toasts
-        const existingToasts = document.querySelectorAll('.toast-notification');
-        existingToasts.forEach(toast => toast.remove());
+        // Use existing toast system if available
+        if (window.showToast) {
+            window.showToast(message, type);
+            return;
+        }
         
+        // Fallback: create simple toast
         const toast = document.createElement('div');
-        toast.className = `toast-notification toast-${type}`;
         toast.textContent = message;
+        toast.style.cssText = `
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: ${
+                type === 'success' ? '#4CAF50' :
+                type === 'error' ? '#f44336' :
+                type === 'warning' ? '#ff9800' : '#2196F3'
+            };
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            z-index: 9998;
+            animation: slideUp 0.3s ease-out;
+        `;
         
         document.body.appendChild(toast);
         
-        // Trigger animation
-        setTimeout(() => toast.classList.add('show'), 10);
-        
-        // Remove after 3 seconds
         setTimeout(() => {
-            toast.classList.remove('show');
+            toast.style.animation = 'slideDown 0.3s ease-in';
             setTimeout(() => toast.remove(), 300);
         }, 3000);
     }
 }
 
-// Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        window.comparisonManager = new ComparisonManager();
-    });
-} else {
-    window.comparisonManager = new ComparisonManager();
-}
+// Initialize globally
+window.comparisonManager = new ComparisonManager();
+
+// CSS animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideUp {
+        from { transform: translateY(100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes slideDown {
+        from { transform: translateY(0); opacity: 1; }
+        to { transform: translateY(100%); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
